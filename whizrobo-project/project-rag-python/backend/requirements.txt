@@ -1,0 +1,10 @@
+flask==3.0.0
+flask-cors==4.0.0
+sentence-transformers==2.2.2
+chromadb==0.4.22
+groq==0.4.1
+ocrspace==2.3.0
+gtts==2.5.0
+python-dotenv==1.0.0
+Pillow==10.2.0
+gunicorn==21.2.0

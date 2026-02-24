@@ -1,0 +1,31 @@
+# Virtual environment
+venv/
+.venv/
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Environment variables
+.env
+
+# OS files
+.DS_Store
+
+# Logs
+*.log
+
+__pycache__/
+*.pyc
+venv/
+.venv/
+logs/
+*.log
+.env
+
+venv/
+__pycache__/
+*.pyc
+.env
+chroma_db_fresh/
+logs/

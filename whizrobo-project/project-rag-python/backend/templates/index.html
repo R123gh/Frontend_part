@@ -1,0 +1,109 @@
+{% extends 'base.html' %}
+
+{% block title %}RAG Based System - AI Assistant{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="tabs">
+        <button class="tab-btn active" onclick="switchTab('text')">
+            <img src="{{ url_for('static', filename='images/icons/mic.svg') }}" alt="Text and Voice" class="tab-icon">
+            <span>Text and Voice Chat</span>
+        </button>
+        <button class="tab-btn" onclick="switchTab('image')">
+            <img src="{{ url_for('static', filename='images/icons/upload.svg') }}" alt="Image Analysis" class="tab-icon">
+            <span>Image Analysis</span>
+        </button>
+    </div>
+
+    <div id="text-tab" class="tab-content active">
+        <div class="input-section">
+            <div class="input-group">
+                <input
+                    type="text"
+                    id="query-input"
+                    placeholder="Type your question here..."
+                    maxlength="500"
+                    autocomplete="off"
+                >
+                <button id="voice-btn" class="btn-icon" title="Voice Input">
+                    <img src="{{ url_for('static', filename='images/icons/mic.svg') }}" alt="Voice" class="btn-icon-img">
+                </button>
+                <button id="ask-btn" class="btn-primary">Ask</button>
+            </div>
+            <div id="voice-status" class="status-message"></div>
+        </div>
+
+        <div id="text-result" class="result-section hidden">
+            <h3>Answer</h3>
+            <div id="text-answer" class="answer-box"></div>
+
+            <div class="button-group">
+                <button id="listen-btn" class="btn-secondary icon-btn">
+                    <img src="{{ url_for('static', filename='images/icons/speaker.svg') }}" alt="Listen" class="btn-inline-icon">
+                    <span>Listen</span>
+                </button>
+                <button id="clear-btn" class="btn-secondary">Clear</button>
+            </div>
+
+            <audio id="audio-player" controls class="audio-player hidden"></audio>
+        </div>
+    </div>
+
+    <div id="image-tab" class="tab-content">
+        <div class="image-upload-section">
+            <div class="upload-area" id="upload-area">
+                <input
+                    type="file"
+                    id="image-input"
+                    accept="image/png,image/jpeg,image/jpg,image/webp,image/gif"
+                    hidden
+                >
+                <div class="upload-content">
+                    <img src="{{ url_for('static', filename='images/icons/upload.svg') }}" alt="Upload" class="upload-icon-img">
+                    <p>Click or drag image here</p>
+                    <p class="upload-hint">Supports: PNG, JPG, JPEG, WebP, GIF (Max 16MB)</p>
+                </div>
+            </div>
+
+            <div id="image-preview" class="image-preview hidden">
+                <img id="preview-img" alt="Preview">
+            </div>
+        </div>
+
+        <div class="image-controls">
+            <textarea
+                id="image-query-input"
+                placeholder="Your question (optional)..."
+                rows="3"
+                maxlength="300"
+            ></textarea>
+
+            <button id="analyze-btn" class="btn-primary icon-btn" disabled>
+                <img src="{{ url_for('static', filename='images/icons/upload.svg') }}" alt="Analyze" class="btn-inline-icon">
+                <span>Analyze Image</span>
+            </button>
+        </div>
+
+        <div id="image-result" class="result-section hidden">
+            <div class="llm-result">
+                <h3>AI Answer</h3>
+                <div id="image-answer" class="answer-box"></div>
+            </div>
+
+            <button id="download-btn" class="btn-secondary">Download Result</button>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+console.log('RAG System loaded successfully');
+if ('serviceWorker' in navigator) {
+    console.log('Service Worker support detected');
+}
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('Page fully loaded and ready');
+});
+</script>
+{% endblock %}

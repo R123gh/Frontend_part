@@ -1,0 +1,206 @@
+@media (max-width: 1200px) {
+    .container {
+        margin: 10px;
+    }
+}
+
+@media (max-width: 992px) {
+    header h1 {
+        font-size: 2rem;
+    }
+    
+    .subtitle {
+        font-size: 1rem;
+    }
+    
+    .tab-content {
+        padding: 30px 25px;
+    }
+}
+
+@media (max-width: 768px) {
+    body {
+        padding: 10px;
+    }
+    
+    header {
+        padding: 30px 20px;
+    }
+    
+    header h1 {
+        font-size: 1.8rem;
+    }
+    
+    .subtitle {
+        font-size: 0.95rem;
+    }
+    
+    .tabs {
+        flex-direction: column;
+    }
+    
+    .tab-btn {
+        border-bottom: none;
+        border-left: 3px solid transparent;
+        text-align: left;
+        padding: 15px 20px;
+    }
+    
+    .tab-btn.active {
+        border-bottom: none;
+        border-left-color: var(--primary-color);
+    }
+    
+    .tab-content {
+        padding: 25px 15px;
+    }
+    
+    .input-group {
+        flex-direction: column;
+    }
+    
+    .input-group input[type="text"],
+    .input-group .btn-primary,
+    .input-group .btn-icon {
+        width: 100%;
+    }
+    
+    .button-group {
+        flex-direction: column;
+    }
+    
+    .button-group button {
+        width: 100%;
+    }
+    
+    .result-section {
+        padding: 20px 15px;
+    }
+    
+    .answer-box {
+        padding: 20px 15px;
+        font-size: 1rem;
+    }
+    
+    .upload-area {
+        padding: 40px 20px;
+    }
+    
+    .upload-icon {
+        font-size: 3.5rem;
+    }
+    
+    .upload-content p {
+        font-size: 1rem;
+    }
+    
+    .image-preview img {
+        max-width: 200px;
+    }
+    
+    .ocr-result,
+    .llm-result {
+        padding: 20px 15px;
+    }
+}
+
+@media (max-width: 576px) {
+    header h1 {
+        font-size: 1.5rem;
+    }
+    
+    .subtitle {
+        font-size: 0.9rem;
+    }
+    
+    .tab-btn {
+        font-size: 1rem;
+        padding: 12px 15px;
+    }
+    
+    .tab-content {
+        padding: 20px 10px;
+    }
+    
+    input[type="text"],
+    textarea,
+    .btn-primary,
+    .btn-secondary,
+    .btn-icon {
+        padding: 12px 15px;
+        font-size: 0.95rem;
+    }
+    
+    .result-section h3 {
+        font-size: 1.1rem;
+    }
+    
+    .upload-area {
+        padding: 30px 15px;
+    }
+    
+    .upload-icon {
+        font-size: 3rem;
+    }
+    
+    .image-preview img {
+        max-width: 150px;
+    }
+    
+    .spinner {
+        width: 50px;
+        height: 50px;
+        border-width: 4px;
+    }
+    
+    #loading-text {
+        font-size: 1.1rem;
+    }
+}
+
+@media (max-width: 400px) {
+    body {
+        padding: 5px;
+    }
+    
+    header {
+        padding: 20px 15px;
+    }
+    
+    header h1 {
+        font-size: 1.3rem;
+    }
+    
+    .container {
+        border-radius: 10px;
+    }
+    
+    .tab-content {
+        padding: 15px 10px;
+    }
+    
+    .result-section,
+    .ocr-result,
+    .llm-result {
+        padding: 15px 10px;
+    }
+}
+
+@media (orientation: landscape) and (max-height: 600px) {
+    header {
+        padding: 20px;
+    }
+    
+    header h1 {
+        font-size: 1.5rem;
+        margin-bottom: 5px;
+    }
+    
+    .subtitle {
+        display: none;
+    }
+    
+    .tab-content {
+        padding: 20px;
+    }
+} 

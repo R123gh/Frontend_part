@@ -1,0 +1,315 @@
+2026-02-24 12:43:41,609 - __main__ - INFO - ================================================================================
+2026-02-24 12:43:41,611 - __main__ - INFO - RAG BASED SYSTEM - FLASK BACKEND
+2026-02-24 12:43:41,612 - __main__ - INFO - ================================================================================
+2026-02-24 12:43:41,613 - __main__ - INFO - 
+2026-02-24 12:43:41,614 - __main__ - INFO - Configuration:
+2026-02-24 12:43:41,614 - __main__ - INFO -   model_name: all-MiniLM-L6-v2
+2026-02-24 12:43:41,615 - __main__ - INFO -   llm_model: llama-3.3-70b-versatile
+2026-02-24 12:43:41,616 - __main__ - INFO -   llm_temperature: 0.7
+2026-02-24 12:43:41,617 - __main__ - INFO -   llm_max_tokens: 1000
+2026-02-24 12:43:41,618 - __main__ - INFO -   top_k: 5
+2026-02-24 12:43:41,619 - __main__ - INFO -   host: 0.0.0.0
+2026-02-24 12:43:41,619 - __main__ - INFO -   port: 5000
+2026-02-24 12:43:41,619 - __main__ - INFO -   debug: False
+2026-02-24 12:43:41,620 - __main__ - INFO -   max_content_length_mb: 16.0
+2026-02-24 12:43:41,620 - __main__ - INFO -   chroma_db_path: ../chroma_db_fresh
+2026-02-24 12:43:41,620 - __main__ - INFO -   log_level: INFO
+2026-02-24 12:43:41,621 - __main__ - INFO - 
+2026-02-24 12:43:41,621 - __main__ - INFO - ================================================================================
+2026-02-24 12:43:41,622 - __main__ - INFO - [OK] Configuration validated successfully
+2026-02-24 12:43:41,623 - __main__ - INFO - Initializing services...
+2026-02-24 12:43:41,624 - app - INFO - ============================================================
+2026-02-24 12:43:41,624 - app - INFO - Initializing RAG System Services...
+2026-02-24 12:43:41,625 - app - INFO - ============================================================
+2026-02-24 12:43:41,625 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2026-02-24 12:43:50,793 - services.embeddings - INFO - Embedding model loaded: all-MiniLM-L6-v2 on cpu
+2026-02-24 12:43:50,905 - chromadb.telemetry.product.posthog - INFO - Anonymized telemetry enabled. See                     https://docs.trychroma.com/telemetry for more information.
+2026-02-24 12:43:51,310 - services.vector_db - INFO - ChromaDB connected: 4859 chunks available in 'video_chunks'
+2026-02-24 12:43:51,962 - services.llm - INFO - Groq LLM service initialized with model: llama-3.3-70b-versatile
+2026-02-24 12:43:51,966 - services.ocr - INFO - OCR service initialized with engine=2 timeout=20.0s retries=2
+--- Logging error ---
+Traceback (most recent call last):
+  File "C:\Users\ragha\AppData\Local\Python\pythoncore-3.11-64\Lib\logging\__init__.py", line 1113, in emit
+    stream.write(msg + self.terminator)
+  File "C:\Users\ragha\AppData\Local\Python\pythoncore-3.11-64\Lib\encodings\cp1252.py", line 19, in encode
+    return codecs.charmap_encode(input,self.errors,encoding_table)[0]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeEncodeError: 'charmap' codec can't encode character '\u2713' in position 48: character maps to <undefined>
+Call stack:
+  File "C:\Users\ragha\Downloads\whizrobo-project\whizrobo-project\project-rag-python\backend\run.py", line 110, in <module>
+    main()
+  File "C:\Users\ragha\Downloads\whizrobo-project\whizrobo-project\project-rag-python\backend\run.py", line 80, in main
+    if not initialize_services():
+  File "C:\Users\ragha\Downloads\whizrobo-project\whizrobo-project\project-rag-python\backend\app.py", line 107, in initialize_services
+    tts_service = TTSService(language='en', slow=False)
+  File "C:\Users\ragha\Downloads\whizrobo-project\whizrobo-project\project-rag-python\backend\services\tts.py", line 14, in __init__
+    logger.info(f"\u2713 TTS service initialized with language: {language}")
+Message: '\u2713 TTS service initialized with language: en'
+Arguments: ()
+2026-02-24 12:43:51,968 - services.tts - INFO - \u2713 TTS service initialized with language: en
+2026-02-24 12:43:51,984 - app - INFO - ============================================================
+--- Logging error ---
+Traceback (most recent call last):
+  File "C:\Users\ragha\AppData\Local\Python\pythoncore-3.11-64\Lib\logging\__init__.py", line 1113, in emit
+    stream.write(msg + self.terminator)
+  File "C:\Users\ragha\AppData\Local\Python\pythoncore-3.11-64\Lib\encodings\cp1252.py", line 19, in encode
+    return codecs.charmap_encode(input,self.errors,encoding_table)[0]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeEncodeError: 'charmap' codec can't encode character '\u2713' in position 39: character maps to <undefined>
+Call stack:
+  File "C:\Users\ragha\Downloads\whizrobo-project\whizrobo-project\project-rag-python\backend\run.py", line 110, in <module>
+    main()
+  File "C:\Users\ragha\Downloads\whizrobo-project\whizrobo-project\project-rag-python\backend\run.py", line 80, in main
+    if not initialize_services():
+  File "C:\Users\ragha\Downloads\whizrobo-project\whizrobo-project\project-rag-python\backend\app.py", line 113, in initialize_services
+    logger.info("\u2713 All services initialized successfully")
+Message: '\u2713 All services initialized successfully'
+Arguments: ()
+2026-02-24 12:43:51,985 - app - INFO - \u2713 All services initialized successfully
+2026-02-24 12:43:51,993 - app - INFO - ============================================================
+2026-02-24 12:43:51,993 - __main__ - INFO - ================================================================================
+2026-02-24 12:43:51,994 - __main__ - INFO - [OK] SERVER STARTED SUCCESSFULLY
+2026-02-24 12:43:51,995 - __main__ - INFO - ================================================================================
+2026-02-24 12:43:51,996 - __main__ - INFO - 
+2026-02-24 12:43:51,997 - __main__ - INFO -   Server URL:        http://0.0.0.0:5000
+2026-02-24 12:43:51,998 - __main__ - INFO -   Health Check:      http://0.0.0.0:5000/health
+2026-02-24 12:43:51,999 - __main__ - INFO -   API Endpoints:     http://0.0.0.0:5000/api/
+2026-02-24 12:43:52,000 - __main__ - INFO - 
+2026-02-24 12:43:52,000 - __main__ - INFO -   Status:            Running
+2026-02-24 12:43:52,001 - __main__ - INFO -   Debug Mode:        False
+2026-02-24 12:43:52,002 - __main__ - INFO - 
+2026-02-24 12:43:52,004 - __main__ - INFO - ================================================================================
+2026-02-24 12:43:52,004 - __main__ - INFO - 
+2026-02-24 12:43:52,005 - __main__ - INFO - Press CTRL+C to stop the server
+2026-02-24 12:43:52,006 - __main__ - INFO - 
+2026-02-24 12:43:52,027 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.29.116:5000
+2026-02-24 12:43:52,028 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2026-02-24 12:43:52,462 - werkzeug - INFO - 127.0.0.1 - - [24/Feb/2026 12:43:52] "GET /health HTTP/1.1" 200 -
+2026-02-24 12:44:15,213 - app - INFO - Processing OCR for image: AD_key.png
+2026-02-24 12:44:15,403 - app - INFO - Image size (original/processed): 0.42 MB / 0.11 MB
+2026-02-24 12:44:17,687 - services.ocr - INFO - OCR extracted 518 characters
+2026-02-24 12:44:17,691 - app - INFO - OCR successful: 516 characters extracted
+2026-02-24 12:44:17,692 - werkzeug - INFO - 127.0.0.1 - - [24/Feb/2026 12:44:17] "POST /api/ocr HTTP/1.1" 200 -
+2026-02-24 12:44:20,944 - app - INFO - Processing image query: AD_key.png, query: 'explain this code
+
+Extracted image text:
+when Arduino begi
+Declare Global • variable Type int •
+serial O • begin baudrate 115200 •
+Name
+Assi ned to
+forever
+set
+if
+wav
+if
+if
+wait
+variable by
+variable
+item
+LED pin 1023
+second
+Read the value of the interface
+1033
+ADkey module
+4095
+out
+out
+HIGH
+LOW
+LED pin
+variable
+LED pin
+1023
+item
+1026
+2600
+the
+and
+and
+variable
+variable
+item
+item
+2620
+th
+second
+out
+out
+HIGH
+LOW
+LED pin
+variable
+LED pin
+1026
+item
+1027
+1300
+the
+1315
+LED pin 1027
+out
+out
+HIGH
+LOW •'
+2026-02-24 12:44:23,332 - services.ocr - INFO - OCR extracted 518 characters
+2026-02-24 12:44:24,136 - services.vector_db - INFO - Search returned 5 results
+2026-02-24 12:44:24,706 - httpx - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-02-24 12:44:24,714 - app - INFO - Image query successful: 402 characters generated
+2026-02-24 12:44:24,715 - werkzeug - INFO - 127.0.0.1 - - [24/Feb/2026 12:44:24] "POST /api/image-query HTTP/1.1" 200 -
+2026-02-24 12:46:24,319 - app - INFO - Generating TTS for text: Hello this is a TTS test from backend route....
+--- Logging error ---
+Traceback (most recent call last):
+  File "C:\Users\ragha\AppData\Local\Python\pythoncore-3.11-64\Lib\logging\__init__.py", line 1113, in emit
+    stream.write(msg + self.terminator)
+  File "C:\Users\ragha\AppData\Local\Python\pythoncore-3.11-64\Lib\encodings\cp1252.py", line 19, in encode
+    return codecs.charmap_encode(input,self.errors,encoding_table)[0]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeEncodeError: 'charmap' codec can't encode character '\u2713' in position 48: character maps to <undefined>
+Call stack:
+  File "C:\Users\ragha\AppData\Local\Python\pythoncore-3.11-64\Lib\threading.py", line 1002, in _bootstrap
+    self._bootstrap_inner()
+  File "C:\Users\ragha\AppData\Local\Python\pythoncore-3.11-64\Lib\threading.py", line 1045, in _bootstrap_inner
+    self.run()
+  File "C:\Users\ragha\AppData\Local\Python\pythoncore-3.11-64\Lib\threading.py", line 982, in run
+    self._target(*self._args, **self._kwargs)
+  File "C:\Users\ragha\AppData\Local\Python\pythoncore-3.11-64\Lib\socketserver.py", line 691, in process_request_thread
+    self.finish_request(request, client_address)
+  File "C:\Users\ragha\AppData\Local\Python\pythoncore-3.11-64\Lib\socketserver.py", line 361, in finish_request
+    self.RequestHandlerClass(request, client_address, self)
+  File "C:\Users\ragha\AppData\Local\Python\pythoncore-3.11-64\Lib\socketserver.py", line 755, in __init__
+    self.handle()
+  File "C:\Users\ragha\Downloads\whizrobo-project\whizrobo-project\project-rag-python\backend\venv\Lib\site-packages\werkzeug\serving.py", line 398, in handle
+    super().handle()
+  File "C:\Users\ragha\AppData\Local\Python\pythoncore-3.11-64\Lib\http\server.py", line 436, in handle
+    self.handle_one_request()
+  File "C:\Users\ragha\AppData\Local\Python\pythoncore-3.11-64\Lib\http\server.py", line 424, in handle_one_request
+    method()
+  File "C:\Users\ragha\Downloads\whizrobo-project\whizrobo-project\project-rag-python\backend\venv\Lib\site-packages\werkzeug\serving.py", line 370, in run_wsgi
+    execute(self.server.app)
+  File "C:\Users\ragha\Downloads\whizrobo-project\whizrobo-project\project-rag-python\backend\venv\Lib\site-packages\werkzeug\serving.py", line 331, in execute
+    application_iter = app(environ, start_response)
+  File "C:\Users\ragha\Downloads\whizrobo-project\whizrobo-project\project-rag-python\backend\venv\Lib\site-packages\flask\app.py", line 1478, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "C:\Users\ragha\Downloads\whizrobo-project\whizrobo-project\project-rag-python\backend\venv\Lib\site-packages\flask\app.py", line 1455, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\ragha\Downloads\whizrobo-project\whizrobo-project\project-rag-python\backend\venv\Lib\site-packages\flask\app.py", line 867, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\ragha\Downloads\whizrobo-project\whizrobo-project\project-rag-python\backend\venv\Lib\site-packages\flask\app.py", line 852, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "C:\Users\ragha\Downloads\whizrobo-project\whizrobo-project\project-rag-python\backend\app.py", line 413, in api_text_to_speech
+    audio_bytes = tts_service.generate_audio(text)
+  File "C:\Users\ragha\Downloads\whizrobo-project\whizrobo-project\project-rag-python\backend\services\tts.py", line 65, in generate_audio
+    logger.info(f"\u2713 TTS generated {len(audio_bytes)} bytes audio")
+Message: '\u2713 TTS generated 28800 bytes audio'
+Arguments: ()
+2026-02-24 12:46:25,100 - services.tts - INFO - \u2713 TTS generated 28800 bytes audio
+2026-02-24 12:46:25,261 - app - INFO - TTS successful: 28800 bytes generated
+2026-02-24 12:46:25,263 - werkzeug - INFO - 127.0.0.1 - - [24/Feb/2026 12:46:25] "POST /api/tts HTTP/1.1" 200 -
+2026-02-24 12:47:42,945 - app - INFO - Processing text query: what is light sensor... (top_k=5)
+2026-02-24 12:47:42,990 - services.vector_db - INFO - Search returned 5 results
+2026-02-24 12:47:43,604 - httpx - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-02-24 12:47:43,609 - app - INFO - Query successful: 534 characters generated
+2026-02-24 12:47:43,610 - werkzeug - INFO - 127.0.0.1 - - [24/Feb/2026 12:47:43] "POST /api/query HTTP/1.1" 200 -
+2026-02-24 12:47:48,475 - app - INFO - Generating TTS for text: A light sensor is a device that detects the intens...
+--- Logging error ---
+Traceback (most recent call last):
+  File "C:\Users\ragha\AppData\Local\Python\pythoncore-3.11-64\Lib\logging\__init__.py", line 1113, in emit
+    stream.write(msg + self.terminator)
+  File "C:\Users\ragha\AppData\Local\Python\pythoncore-3.11-64\Lib\encodings\cp1252.py", line 19, in encode
+    return codecs.charmap_encode(input,self.errors,encoding_table)[0]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeEncodeError: 'charmap' codec can't encode character '\u2713' in position 48: character maps to <undefined>
+Call stack:
+  File "C:\Users\ragha\AppData\Local\Python\pythoncore-3.11-64\Lib\threading.py", line 1002, in _bootstrap
+    self._bootstrap_inner()
+  File "C:\Users\ragha\AppData\Local\Python\pythoncore-3.11-64\Lib\threading.py", line 1045, in _bootstrap_inner
+    self.run()
+  File "C:\Users\ragha\AppData\Local\Python\pythoncore-3.11-64\Lib\threading.py", line 982, in run
+    self._target(*self._args, **self._kwargs)
+  File "C:\Users\ragha\AppData\Local\Python\pythoncore-3.11-64\Lib\socketserver.py", line 691, in process_request_thread
+    self.finish_request(request, client_address)
+  File "C:\Users\ragha\AppData\Local\Python\pythoncore-3.11-64\Lib\socketserver.py", line 361, in finish_request
+    self.RequestHandlerClass(request, client_address, self)
+  File "C:\Users\ragha\AppData\Local\Python\pythoncore-3.11-64\Lib\socketserver.py", line 755, in __init__
+    self.handle()
+  File "C:\Users\ragha\Downloads\whizrobo-project\whizrobo-project\project-rag-python\backend\venv\Lib\site-packages\werkzeug\serving.py", line 398, in handle
+    super().handle()
+  File "C:\Users\ragha\AppData\Local\Python\pythoncore-3.11-64\Lib\http\server.py", line 436, in handle
+    self.handle_one_request()
+  File "C:\Users\ragha\AppData\Local\Python\pythoncore-3.11-64\Lib\http\server.py", line 424, in handle_one_request
+    method()
+  File "C:\Users\ragha\Downloads\whizrobo-project\whizrobo-project\project-rag-python\backend\venv\Lib\site-packages\werkzeug\serving.py", line 370, in run_wsgi
+    execute(self.server.app)
+  File "C:\Users\ragha\Downloads\whizrobo-project\whizrobo-project\project-rag-python\backend\venv\Lib\site-packages\werkzeug\serving.py", line 331, in execute
+    application_iter = app(environ, start_response)
+  File "C:\Users\ragha\Downloads\whizrobo-project\whizrobo-project\project-rag-python\backend\venv\Lib\site-packages\flask\app.py", line 1478, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "C:\Users\ragha\Downloads\whizrobo-project\whizrobo-project\project-rag-python\backend\venv\Lib\site-packages\flask\app.py", line 1455, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\ragha\Downloads\whizrobo-project\whizrobo-project\project-rag-python\backend\venv\Lib\site-packages\flask\app.py", line 867, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\ragha\Downloads\whizrobo-project\whizrobo-project\project-rag-python\backend\venv\Lib\site-packages\flask\app.py", line 852, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "C:\Users\ragha\Downloads\whizrobo-project\whizrobo-project\project-rag-python\backend\app.py", line 413, in api_text_to_speech
+    audio_bytes = tts_service.generate_audio(text)
+  File "C:\Users\ragha\Downloads\whizrobo-project\whizrobo-project\project-rag-python\backend\services\tts.py", line 65, in generate_audio
+    logger.info(f"\u2713 TTS generated {len(audio_bytes)} bytes audio")
+Message: '\u2713 TTS generated 302208 bytes audio'
+Arguments: ()
+2026-02-24 12:47:52,532 - services.tts - INFO - \u2713 TTS generated 302208 bytes audio
+2026-02-24 12:47:52,543 - app - INFO - TTS successful: 302208 bytes generated
+2026-02-24 12:47:52,544 - werkzeug - INFO - 127.0.0.1 - - [24/Feb/2026 12:47:52] "POST /api/tts HTTP/1.1" 200 -
+2026-02-24 12:48:04,698 - app - INFO - Generating TTS for text: A light sensor is a device that detects the intens...
+--- Logging error ---
+Traceback (most recent call last):
+  File "C:\Users\ragha\AppData\Local\Python\pythoncore-3.11-64\Lib\logging\__init__.py", line 1113, in emit
+    stream.write(msg + self.terminator)
+  File "C:\Users\ragha\AppData\Local\Python\pythoncore-3.11-64\Lib\encodings\cp1252.py", line 19, in encode
+    return codecs.charmap_encode(input,self.errors,encoding_table)[0]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeEncodeError: 'charmap' codec can't encode character '\u2713' in position 48: character maps to <undefined>
+Call stack:
+  File "C:\Users\ragha\AppData\Local\Python\pythoncore-3.11-64\Lib\threading.py", line 1002, in _bootstrap
+    self._bootstrap_inner()
+  File "C:\Users\ragha\AppData\Local\Python\pythoncore-3.11-64\Lib\threading.py", line 1045, in _bootstrap_inner
+    self.run()
+  File "C:\Users\ragha\AppData\Local\Python\pythoncore-3.11-64\Lib\threading.py", line 982, in run
+    self._target(*self._args, **self._kwargs)
+  File "C:\Users\ragha\AppData\Local\Python\pythoncore-3.11-64\Lib\socketserver.py", line 691, in process_request_thread
+    self.finish_request(request, client_address)
+  File "C:\Users\ragha\AppData\Local\Python\pythoncore-3.11-64\Lib\socketserver.py", line 361, in finish_request
+    self.RequestHandlerClass(request, client_address, self)
+  File "C:\Users\ragha\AppData\Local\Python\pythoncore-3.11-64\Lib\socketserver.py", line 755, in __init__
+    self.handle()
+  File "C:\Users\ragha\Downloads\whizrobo-project\whizrobo-project\project-rag-python\backend\venv\Lib\site-packages\werkzeug\serving.py", line 398, in handle
+    super().handle()
+  File "C:\Users\ragha\AppData\Local\Python\pythoncore-3.11-64\Lib\http\server.py", line 436, in handle
+    self.handle_one_request()
+  File "C:\Users\ragha\AppData\Local\Python\pythoncore-3.11-64\Lib\http\server.py", line 424, in handle_one_request
+    method()
+  File "C:\Users\ragha\Downloads\whizrobo-project\whizrobo-project\project-rag-python\backend\venv\Lib\site-packages\werkzeug\serving.py", line 370, in run_wsgi
+    execute(self.server.app)
+  File "C:\Users\ragha\Downloads\whizrobo-project\whizrobo-project\project-rag-python\backend\venv\Lib\site-packages\werkzeug\serving.py", line 331, in execute
+    application_iter = app(environ, start_response)
+  File "C:\Users\ragha\Downloads\whizrobo-project\whizrobo-project\project-rag-python\backend\venv\Lib\site-packages\flask\app.py", line 1478, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "C:\Users\ragha\Downloads\whizrobo-project\whizrobo-project\project-rag-python\backend\venv\Lib\site-packages\flask\app.py", line 1455, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\ragha\Downloads\whizrobo-project\whizrobo-project\project-rag-python\backend\venv\Lib\site-packages\flask\app.py", line 867, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\ragha\Downloads\whizrobo-project\whizrobo-project\project-rag-python\backend\venv\Lib\site-packages\flask\app.py", line 852, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "C:\Users\ragha\Downloads\whizrobo-project\whizrobo-project\project-rag-python\backend\app.py", line 413, in api_text_to_speech
+    audio_bytes = tts_service.generate_audio(text)
+  File "C:\Users\ragha\Downloads\whizrobo-project\whizrobo-project\project-rag-python\backend\services\tts.py", line 65, in generate_audio
+    logger.info(f"\u2713 TTS generated {len(audio_bytes)} bytes audio")
+Message: '\u2713 TTS generated 302208 bytes audio'
+Arguments: ()
+2026-02-24 12:48:09,657 - services.tts - INFO - \u2713 TTS generated 302208 bytes audio
+2026-02-24 12:48:09,674 - app - INFO - TTS successful: 302208 bytes generated
+2026-02-24 12:48:09,675 - werkzeug - INFO - 127.0.0.1 - - [24/Feb/2026 12:48:09] "POST /api/tts HTTP/1.1" 200 -

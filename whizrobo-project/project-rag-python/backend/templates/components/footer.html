@@ -1,0 +1,214 @@
+<footer class="footer">
+    <div class="footer-shine"></div>
+    <div class="footer-content">
+        <div class="footer-section">
+            <h4>About</h4>
+            <p>RAG-based AI system with voice, text, and image analysis capabilities.</p>
+        </div>
+
+        <div class="footer-section">
+            <h4>Features</h4>
+            <ul>
+                <li>Text and Voice Chat</li>
+                <li>Image Analysis (OCR)</li>
+                <li>Text-to-Speech</li>
+                <li>Semantic Search</li>
+            </ul>
+        </div>
+
+        <div class="footer-section">
+            <h4>Powered By</h4>
+            <ul>
+                <li>Groq LLM API</li>
+                <li>ChromaDB</li>
+                <li>OCR.Space</li>
+                <li>SentenceTransformers</li>
+            </ul>
+        </div>
+
+        <div class="footer-section">
+            <h4>System Info</h4>
+            <p id="system-info">Loading...</p>
+        </div>
+    </div>
+
+    <div class="footer-bottom">
+        <p>&copy; 2026 RAG Based System. All rights reserved.</p>
+        <p class="footer-version">Version 1.0.0</p>
+    </div>
+</footer>
+
+<style>
+.footer {
+    background: rgb(237, 126, 40);
+    color: #fff;
+    padding: 42px 30px 20px;
+    margin-top: 50px;
+    position: relative;
+    overflow: hidden;
+    border-top: 1px solid rgba(255, 255, 255, 0.24);
+    box-shadow: 0 -8px 22px rgba(237, 126, 40, 0.22);
+}
+
+.footer::before {
+    content: "";
+    position: absolute;
+    inset: -35% -45%;
+    background: linear-gradient(120deg, rgba(255, 255, 255, 0) 44%, rgba(255, 255, 255, 0.16) 50%, rgba(255, 255, 255, 0) 56%);
+    transform: translateX(-55%);
+    animation: footerSweep 10s linear infinite;
+    pointer-events: none;
+}
+
+.footer-shine {
+    position: absolute;
+    left: -120px;
+    bottom: -200px;
+    width: 360px;
+    height: 360px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0) 70%);
+    animation: footerFloat 7s ease-in-out infinite;
+    pointer-events: none;
+}
+
+.footer-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+    gap: 28px;
+    max-width: 1200px;
+    margin: 0 auto 30px;
+    position: relative;
+    z-index: 1;
+}
+
+.footer-section {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    border-radius: 12px;
+    padding: 16px 16px 14px;
+    backdrop-filter: blur(2px);
+    animation: fadeUp 0.6s ease both;
+}
+
+.footer-section:nth-child(2) { animation-delay: 0.07s; }
+.footer-section:nth-child(3) { animation-delay: 0.14s; }
+.footer-section:nth-child(4) { animation-delay: 0.21s; }
+
+.footer-section h4 {
+    font-size: 1.03rem;
+    margin-bottom: 12px;
+    font-weight: 700;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.34);
+    padding-bottom: 7px;
+    letter-spacing: 0.2px;
+}
+
+.footer-section p,
+.footer-section ul li {
+    font-size: 0.9rem;
+    line-height: 1.6;
+    opacity: 0.97;
+}
+
+.footer-section ul {
+    list-style: none;
+    padding: 0;
+}
+
+.footer-section ul li {
+    padding: 5px 0;
+}
+
+.footer-section ul li::before {
+    content: "";
+    width: 6px;
+    height: 6px;
+    display: inline-block;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.88);
+    margin-right: 10px;
+    transform: translateY(-1px);
+}
+
+.footer-bottom {
+    border-top: 1px solid rgba(255, 255, 255, 0.24);
+    padding-top: 18px;
+    text-align: center;
+    position: relative;
+    z-index: 1;
+}
+
+.footer-bottom p {
+    margin: 4px 0;
+    font-size: 0.84rem;
+    opacity: 0.93;
+}
+
+.footer-version {
+    font-weight: 700;
+    letter-spacing: 0.2px;
+}
+
+@keyframes footerSweep {
+    0% { transform: translateX(-62%); }
+    100% { transform: translateX(62%); }
+}
+
+@keyframes footerFloat {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+@keyframes fadeUp {
+    from { opacity: 0; transform: translateY(7px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 768px) {
+    .footer {
+        padding: 30px 20px 15px;
+    }
+
+    .footer-content {
+        grid-template-columns: 1fr;
+        gap: 18px;
+    }
+
+    .footer-section {
+        padding: 14px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .footer::before,
+    .footer-shine,
+    .footer-section {
+        animation: none !important;
+    }
+}
+</style>
+
+<script>
+async function loadSystemInfo() {
+    try {
+        const response = await fetch('/health');
+        const data = await response.json();
+
+        const systemInfoEl = document.getElementById('system-info');
+        if (systemInfoEl) {
+            systemInfoEl.innerHTML = `
+                Status: <strong>${data.status}</strong><br>
+                Chunks: <strong>${data.collection_count}</strong>
+            `;
+        }
+    } catch (error) {
+        const systemInfoEl = document.getElementById('system-info');
+        if (systemInfoEl) {
+            systemInfoEl.innerHTML = 'Status: <strong>Offline</strong>';
+        }
+    }
+}
+
+loadSystemInfo();
+</script>

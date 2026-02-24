@@ -1,0 +1,159 @@
+<header class="site-header">
+    <div class="header-glow"></div>
+    <div class="header-content">
+        <h1>RAG Based System</h1>
+        <p class="subtitle">Ask questions using text, voice, or upload an image</p>
+    </div>
+    <div class="header-status">
+        <span id="connection-status" class="status-indicator">
+            <span class="status-dot"></span>
+            <span class="status-text">Connected</span>
+        </span>
+    </div>
+</header>
+
+<style>
+.site-header {
+    background: rgb(237, 126, 40);
+    color: #fff;
+    position: relative;
+    overflow: hidden;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.25);
+    box-shadow: 0 10px 24px rgba(237, 126, 40, 0.35);
+}
+
+.site-header::before {
+    content: "";
+    position: absolute;
+    inset: -30% -40%;
+    background: linear-gradient(120deg, rgba(255, 255, 255, 0) 40%, rgba(255, 255, 255, 0.22) 50%, rgba(255, 255, 255, 0) 60%);
+    transform: translateX(-50%);
+    animation: headerSweep 8s linear infinite;
+    pointer-events: none;
+}
+
+.header-glow {
+    position: absolute;
+    width: 420px;
+    height: 420px;
+    right: -140px;
+    top: -260px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.26) 0%, rgba(255, 255, 255, 0) 70%);
+    animation: headerFloat 6s ease-in-out infinite;
+    pointer-events: none;
+}
+
+.header-content {
+    position: relative;
+    z-index: 2;
+    animation: fadeUp 0.55s ease-out both;
+}
+
+.header-content h1 {
+    letter-spacing: 0.2px;
+    text-shadow: 0 3px 10px rgba(0, 0, 0, 0.18);
+}
+
+.subtitle {
+    max-width: 700px;
+    margin: 0 auto;
+    opacity: 0.95;
+}
+
+.header-status {
+    margin-top: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    z-index: 2;
+    animation: fadeUp 0.75s ease-out both;
+}
+
+.status-indicator {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    background: rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    border-radius: 999px;
+    font-size: 0.9rem;
+    backdrop-filter: blur(10px);
+}
+
+.status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #28a745;
+    animation: pulse 2s ease-in-out infinite;
+}
+
+.status-dot.offline {
+    background: #dc3545;
+    animation: none;
+}
+
+.status-text {
+    font-weight: 600;
+    letter-spacing: 0.2px;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.45; }
+}
+
+@keyframes headerSweep {
+    0% { transform: translateX(-60%); }
+    100% { transform: translateX(60%); }
+}
+
+@keyframes headerFloat {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(12px); }
+}
+
+@keyframes fadeUp {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .site-header::before,
+    .header-glow,
+    .status-dot,
+    .header-content,
+    .header-status {
+        animation: none !important;
+    }
+}
+</style>
+
+<script>
+async function checkConnectionStatus() {
+    const statusDot = document.querySelector('.status-dot');
+    const statusText = document.querySelector('.status-text');
+
+    try {
+        const response = await fetch('/health');
+        const data = await response.json();
+
+        if (data.status === 'healthy') {
+            statusDot.classList.remove('offline');
+            statusText.textContent = `Connected (${data.collection_count} chunks)`;
+        } else {
+            statusDot.classList.add('offline');
+            statusText.textContent = 'Disconnected';
+        }
+    } catch (error) {
+        statusDot.classList.add('offline');
+        statusText.textContent = 'Disconnected';
+    }
+}
+
+checkConnectionStatus();
+setInterval(checkConnectionStatus, 30000);
+</script>
