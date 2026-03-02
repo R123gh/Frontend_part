@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import { FaMicrophone, FaRobot } from "react-icons/fa";
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || "";
 
@@ -126,7 +127,7 @@ const Kits = () => {
     {
       role: "assistant",
       content:
-        "Ask me anything about this kit. I can help with concepts, build ideas, and project steps.",
+        "Ask me anything about this kit and more.",
     },
   ]);
 
@@ -536,13 +537,13 @@ const Kits = () => {
           <div className="bg-gradient-to-r from-[#EC7B21] to-[#f39a4f] text-white px-4 py-3 flex items-start justify-between gap-3">
             <div>
               <h3 className="text-base font-bold tracking-wide flex items-center gap-2">
-                AI Assistant
+                Whizrobo Chatbot
                 <span className="relative inline-flex h-2.5 w-2.5">
                   <span className="absolute inline-flex h-full w-full rounded-full bg-emerald-200 opacity-75 animate-ping" />
                   <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-400" />
                 </span>
               </h3>
-              <p className="text-xs opacity-95">Ask about kits, technical setup, coding, sensors, and troubleshooting.</p>
+              <p className="text-xs opacity-95">Ask about kits , Components and more.</p>
               <p className="text-xs opacity-90 mt-1">Kit context: {selectedItem.name}</p>
             </div>
             <div className="flex items-center gap-2">
@@ -592,7 +593,7 @@ const Kits = () => {
             ))}
             {ragLoading && (
               <div className="mr-auto bg-white border border-orange-100 text-gray-700 px-3 py-2.5 rounded-xl text-sm shadow-sm animate-pulse">
-                AI Assistant is typing...
+                Chatbot is typing...
               </div>
             )}
             <div ref={messagesEndRef} />
@@ -684,7 +685,10 @@ const Kits = () => {
               aria-label="Use microphone"
               title={speechSupported ? "Speak your question" : "Speech input not supported in this browser"}
             >
-              {isListening ? "Listening..." : "Mic"}
+              <span className="inline-flex items-center gap-1">
+                <FaMicrophone size={13} />
+                {isListening ? "Listening..." : "Mic"}
+              </span>
             </button>
             <button
               onClick={askRag}
@@ -704,7 +708,7 @@ const Kits = () => {
           onClick={() => setIsChatOpen((prev) => !prev)}
           className="ml-auto relative overflow-hidden flex items-center gap-2 rounded-full bg-[#EC7B21] text-white px-4 py-3 shadow-xl hover:bg-orange-600 transition-all active:scale-95 hover:shadow-[0_0_28px_rgba(236,123,33,0.55)]"
           aria-expanded={isChatOpen}
-          aria-label="Toggle AI assistant"
+          aria-label="Toggle Whizrobo Chatbot"
         >
           <span className="absolute inset-0 bg-gradient-to-r from-orange-400/20 via-yellow-200/20 to-orange-500/20 animate-pulse" />
           <span className="absolute -inset-2 rounded-full border border-orange-300/60 animate-ping" />
@@ -713,9 +717,9 @@ const Kits = () => {
               isChatOpen ? "rotate-90" : "rotate-0"
             }`}
           >
-            ✦
+            <FaRobot size={15} />
           </span>
-          <span className="relative font-semibold text-sm tracking-wide">AI Assistant</span>
+          <span className="relative font-semibold text-sm tracking-wide">Whizrobo Chatbot</span>
         </button>
       </div>
     </div>
@@ -723,3 +727,4 @@ const Kits = () => {
 };
 
 export default Kits;
+

@@ -46,8 +46,10 @@ const buildFlaskUrl = () => {
     (process.env.RAG_FLASK_IMAGE_URL || "").trim() || `${baseUrl}/api/image-query`;
   const ocrUrl =
     (process.env.RAG_FLASK_OCR_URL || "").trim() || `${baseUrl}/api/ocr`;
+  const robotQueryUrl =
+    (process.env.RAG_FLASK_ROBOT_URL || "").trim() || `${baseUrl}/api/robot-query`;
 
-  return { queryUrl, imageQueryUrl, ocrUrl };
+  return { queryUrl, imageQueryUrl, ocrUrl, robotQueryUrl };
 };
 
 const dataUrlToUpload = (image, imageType, imageName) => {
@@ -223,6 +225,59 @@ router.post("/ask", async (req, res) => {
         : "Unable to connect to Flask RAG service.",
       details: error.message,
       source: targetUrl,
+    });
+  } finally {
+    clearTimeout(timeout);
+  }
+});
+
+router.post("/ask-robot", async (req, res) => {
+  const { query, history = [] } = req.body || {};
+  if (!query || typeof query !== "string") {
+    return res.status(400).json({ msg: "Query is required." });
+  }
+
+  const { robotQueryUrl } = buildFlaskUrl();
+  const payload = {
+    query,
+    question: query,
+    top_k: 5,
+    history,
+  };
+
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 20000);
+  try {
+    const flaskRes = await fetch(robotQueryUrl, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+      signal: controller.signal,
+    });
+
+    const data = await flaskRes.json().catch(() => ({}));
+    const answer = resolveAnswerText(data);
+
+    if (!flaskRes.ok) {
+      return res.status(flaskRes.status).json({
+        msg: data.msg || data.error || "Flask robot RAG request failed.",
+        source: robotQueryUrl,
+      });
+    }
+
+    return res.json({
+      answer: answer || "No answer returned from robot RAG service.",
+      raw: data,
+      source: robotQueryUrl,
+    });
+  } catch (error) {
+    const isTimeout = error.name === "AbortError";
+    return res.status(isTimeout ? 504 : 502).json({
+      msg: isTimeout
+        ? "Robot RAG request timed out."
+        : "Unable to connect to Flask robot RAG service.",
+      details: error.message,
+      source: robotQueryUrl,
     });
   } finally {
     clearTimeout(timeout);

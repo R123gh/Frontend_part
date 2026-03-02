@@ -14,7 +14,7 @@ logger = logging.getLogger(__name__)
 
 def create_directories():
     """Create necessary directories if they don't exist"""
-    directories = ['logs', 'static/images', 'static/css', 'static/js']
+    directories = ['logs']
     
     for directory in directories:
         if not os.path.exists(directory):

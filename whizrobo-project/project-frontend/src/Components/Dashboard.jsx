@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { FaArrowRight, FaBars, FaRobot, FaTachometerAlt, FaTimes, FaToolbox } from "react-icons/fa";
 
 /* ===================== KITS DATA ===================== */
 const kitsData = {
@@ -103,9 +104,9 @@ const robotsData = [
 
 /* ===================== SIDEBAR ITEMS ===================== */
 const sidebarItems = [
-  { name: "Dashboard", key: "IOT", icon: "📊" },
-  { name: "Robot Kits", key: "WHIZROBO", icon: "🤖" },
-  { name: "Robots", key: "ROBOTS", icon: "🦾" },
+  { name: "Dashboard", key: "IOT", icon: FaTachometerAlt },
+  { name: "Robot Kits", key: "WHIZROBO", icon: FaToolbox },
+  { name: "Robots", key: "ROBOTS", icon: FaRobot },
 ];
 
 const Dashboard = () => {
@@ -122,25 +123,44 @@ const Dashboard = () => {
       return robotsData.map((robot) => (
         <div
           key={robot.id}
-          className="bg-white rounded-xl shadow-md hover:shadow-2xl transition-transform transform hover:-translate-y-1"
+          className="group bg-white/95 border border-gray-200 rounded-2xl shadow-sm hover:shadow-2xl hover:shadow-orange-100/60 transition-all duration-300 hover:-translate-y-1 overflow-hidden"
         >
-          <img
-            src={robot.image}
-            alt={robot.name}
-            className="w-full h-48 object-cover rounded-t-xl"
-          />
-          <div className="p-5">
-            <h2 className="text-xl font-bold mb-2">{robot.name}</h2>
-            <p className="text-gray-600 mb-3">{robot.shortDesc}</p>
-            <ul className="list-disc list-inside mb-4 text-gray-600 space-y-1">
+          <div className="w-full h-56 md:h-60 flex items-center justify-center bg-gradient-to-br from-orange-50 via-white to-gray-100 p-4 md:p-5">
+            <img
+              src={robot.image}
+              alt={robot.name}
+              className="w-full h-full object-contain transition-transform duration-500 group-hover:scale-[1.04]"
+            />
+          </div>
+          <div className="p-5 md:p-6">
+            <div className="flex items-center justify-between mb-3">
+              <span className="inline-flex items-center gap-2 bg-[#EC7B21]/10 text-[#EC7B21] px-3 py-1 rounded-full text-xs font-semibold tracking-wide">
+                <FaRobot className="text-[11px]" />
+                AI ROBOT
+              </span>
+              <span className="text-xs text-gray-400 font-medium">#{robot.id}</span>
+            </div>
+
+            <h2 className="text-2xl font-bold text-gray-900 mb-2">{robot.name}</h2>
+            <p className="text-gray-600 mb-4 leading-relaxed">{robot.shortDesc}</p>
+
+            <ul className="mb-4 space-y-2">
               {robot.bullets.map((b, idx) => (
-                <li key={idx}>{b}</li>
+                <li key={idx} className="flex items-start gap-2.5 text-gray-600 text-sm">
+                  <span className="mt-[7px] h-1.5 w-1.5 rounded-full bg-[#EC7B21] flex-shrink-0" />
+                  <span>{b}</span>
+                </li>
               ))}
             </ul>
-            <p className="text-gray-500 font-medium">{robot.footer}</p>
-            <div className="flex mt-4">
-              <button className="flex-1 bg-[#EC7B21] text-white py-2 rounded-lg font-medium hover:bg-[#d66e1a] transition">
+
+            <p className="text-gray-500 text-sm font-medium leading-relaxed border-t border-gray-100 pt-4">
+              {robot.footer}
+            </p>
+
+            <div className="flex mt-5">
+              <button className="w-full inline-flex items-center justify-center gap-2 bg-[#EC7B21] text-white py-2.5 rounded-xl font-semibold hover:bg-[#d66e1a] transition">
                 View Details
+                <FaArrowRight className="text-xs" />
               </button>
             </div>
           </div>
@@ -203,7 +223,7 @@ const Dashboard = () => {
             className="md:hidden text-xl"
             onClick={() => setSidebarOpen(false)}
           >
-            ✖
+            <FaTimes />
           </button>
         </div>
         <nav className="flex-1 px-4">
@@ -218,7 +238,7 @@ const Dashboard = () => {
                     : "hover:bg-gray-100"
                 }`}
               >
-                <span className="text-xl">{item.icon}</span>
+                <item.icon className="text-lg" />
                 <span className="font-medium">{item.name}</span>
               </li>
             ))}
@@ -234,7 +254,7 @@ const Dashboard = () => {
             className="text-2xl"
             onClick={() => setSidebarOpen(true)}
           >
-            ☰
+            <FaBars />
           </button>
           <span className="font-bold text-[#EC7B21]">Whizrobo</span>
         </div>
@@ -265,3 +285,6 @@ const Dashboard = () => {
 };
 
 export default Dashboard;
+
+
+

@@ -1,10 +1,12 @@
-from flask import Flask, request, jsonify, send_file, render_template
+from flask import Flask, request, jsonify, send_file
 from flask_cors import CORS
 import logging
 from io import BytesIO
 from PIL import Image, UnidentifiedImageError
 import io
 import os
+import re
+import sqlite3
 from werkzeug.utils import secure_filename
 
 from config import Config
@@ -38,9 +40,68 @@ app.config['SECRET_KEY'] = os.urandom(24)
 
 embedding_service = None
 vector_db_service = None
+robot_vector_db_service = None
 llm_service = None
 ocr_service = None
 tts_service = None
+
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+robot_db_path_resolved = None
+
+def resolve_db_path(path_value):
+    if not path_value:
+        return path_value
+    if os.path.isabs(path_value):
+        return path_value
+    return os.path.normpath(os.path.join(BASE_DIR, path_value))
+
+def resolve_sqlite_file(db_path):
+    if not db_path:
+        return None
+    if os.path.isdir(db_path):
+        candidate = os.path.join(db_path, "chroma.sqlite3")
+        return candidate if os.path.exists(candidate) else None
+    return db_path if os.path.exists(db_path) else None
+
+def fetch_robot_documents_from_sqlite(query, top_k=5):
+    if not robot_db_path_resolved:
+        return []
+
+    sqlite_file = resolve_sqlite_file(robot_db_path_resolved)
+    if not sqlite_file:
+        return []
+
+    try:
+        conn = sqlite3.connect(sqlite_file)
+        cur = conn.cursor()
+        cur.execute(
+            "SELECT string_value FROM embedding_metadata WHERE key='chroma:document'"
+        )
+        rows = [r[0] for r in cur.fetchall() if r and r[0]]
+        conn.close()
+
+        if not rows:
+            return []
+
+        query_tokens = re.findall(r"[a-zA-Z0-9_]+", (query or "").lower())
+        if not query_tokens:
+            return rows[:top_k]
+
+        scored = []
+        for doc in rows:
+            lower_doc = doc.lower()
+            score = sum(lower_doc.count(token) for token in query_tokens)
+            if score > 0:
+                scored.append((score, doc))
+
+        if not scored:
+            return rows[:top_k]
+
+        scored.sort(key=lambda x: x[0], reverse=True)
+        return [d for _, d in scored[:top_k]]
+    except Exception as e:
+        logger.warning(f"SQLite robot retrieval failed: {str(e)}")
+        return []
 
 
 def preprocess_image_for_ocr(image_bytes):
@@ -66,7 +127,7 @@ def preprocess_image_for_ocr(image_bytes):
 
 def initialize_services():
     """Initialize all services"""
-    global embedding_service, vector_db_service, llm_service, ocr_service, tts_service
+    global embedding_service, vector_db_service, robot_vector_db_service, llm_service, ocr_service, tts_service, robot_db_path_resolved
     
     try:
         logger.info("=" * 60)
@@ -75,10 +136,23 @@ def initialize_services():
         
         embedding_service = EmbeddingService(Config.MODEL_NAME)
         
+        default_db_path = resolve_db_path(Config.CHROMA_DB_PATH)
         vector_db_service = VectorDBService(
-            db_path=Config.CHROMA_DB_PATH,
+            db_path=default_db_path,
             collection_name='video_chunks'
         )
+
+        robot_collection_name = os.getenv("ROBOT_COLLECTION_NAME", "robot_chunks")
+        robot_db_path = resolve_db_path(os.getenv("ROBOT_CHROMA_DB_PATH", Config.CHROMA_DB_PATH))
+        robot_db_path_resolved = robot_db_path
+        try:
+            robot_vector_db_service = VectorDBService(
+                db_path=robot_db_path,
+                collection_name=robot_collection_name
+            )
+        except Exception as e:
+            robot_vector_db_service = vector_db_service
+            logger.warning(f"Robot vector DB unavailable, falling back to default collection: {str(e)}")
         
         try:
             llm_service = LLMService(
@@ -133,12 +207,13 @@ def check_services():
 
 @app.route('/')
 def index():
-    """Render main page"""
-    try:
-        return render_template('index.html')
-    except Exception as e:
-        logger.error(f"Error rendering index: {str(e)}")
-        return "Error loading application", 500
+    """API root endpoint"""
+    return jsonify({
+        "service": "rag-flask-api",
+        "status": "running",
+        "health": "/health",
+        "endpoints": ["/api/query", "/api/ocr", "/api/image-query", "/api/tts"]
+    })
 
 @app.route('/health', methods=['GET'])
 def health_check():
@@ -158,6 +233,7 @@ def health_check():
             'services': {
                 'embeddings': embedding_service is not None,
                 'vector_db': vector_db_service is not None,
+                'robot_vector_db': robot_vector_db_service is not None,
                 'llm': llm_service is not None,
                 'ocr': ocr_service is not None,
                 'tts': tts_service is not None
@@ -236,6 +312,85 @@ def api_query_text():
     except Exception as e:
         logger.error(f"Query error: {str(e)}", exc_info=True)
         return jsonify(handle_error(e, "Query processing")), 500
+
+@app.route('/api/robot-query', methods=['POST'])
+def api_robot_query_text():
+    """Robot-specific text query endpoint using robot vector collection"""
+    try:
+        if llm_service is None:
+            return jsonify(format_response(
+                success=False,
+                error="LLM service is unavailable. Check dependencies and GROQ configuration."
+            )), 503
+
+        data = request.get_json()
+
+        if not data:
+            return jsonify(format_response(
+                success=False,
+                error="No JSON data provided"
+            )), 400
+
+        query = data.get('query', '').strip()
+        top_k = data.get('top_k', Config.TOP_K)
+
+        is_valid, error = validate_text_input(query)
+        if not is_valid:
+            return jsonify(format_response(success=False, error=error)), 400
+
+        is_valid_k, error_k, top_k = validate_top_k(top_k)
+        if not is_valid_k:
+            logger.warning(f"Invalid top_k: {error_k}, using default: {top_k}")
+
+        logger.info(f"Processing robot query: {query[:50]}... (top_k={top_k})")
+        db_service = robot_vector_db_service or vector_db_service
+        documents = []
+
+        # Use dedicated vector collection when available; otherwise read from robot sqlite DB.
+        if getattr(db_service, "mode", "") != "fallback_csv":
+            query_embedding = embedding_service.encode(query)
+            results = db_service.search(query_embedding, top_k)
+            documents = results.get('documents', [[]])[0]
+        else:
+            documents = fetch_robot_documents_from_sqlite(query, top_k)
+            if documents:
+                logger.info(f"Robot query using sqlite DB: {resolve_sqlite_file(robot_db_path_resolved)}")
+            if not documents and vector_db_service is not None:
+                query_embedding = embedding_service.encode(query)
+                results = vector_db_service.search(query_embedding, top_k)
+                documents = results.get('documents', [[]])[0]
+
+        if not documents:
+            return jsonify(format_response(
+                success=True,
+                data={'answer': 'No relevant robot information found in the knowledge base.'},
+                message="No results found"
+            ))
+
+        context = "\n\n".join(documents)
+
+        prompt = llm_service.build_text_query_prompt(
+            context=context,
+            query=query
+        )
+
+        answer = llm_service.generate_answer(prompt)
+
+        logger.info(f"Robot query successful: {len(answer)} characters generated")
+
+        return jsonify(format_response(
+            success=True,
+            data={
+                'answer': answer,
+                'chunks_used': len(documents),
+                'collection': getattr(db_service, "collection_name", "video_chunks")
+            },
+            message="Robot query processed successfully"
+        ))
+
+    except Exception as e:
+        logger.error(f"Robot query error: {str(e)}", exc_info=True)
+        return jsonify(handle_error(e, "Robot query processing")), 500
 
 @app.route('/api/ocr', methods=['POST'])
 def api_ocr_extract():

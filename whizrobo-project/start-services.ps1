@@ -32,6 +32,8 @@ $services = @(
     Args = @("run.py")
     WorkDir = Join-Path $root "project-rag-python\backend"
     Url = "http://127.0.0.1:5000/health"
+    HealthRetries = 180
+    HealthIntervalMs = 500
     OutLog = Join-Path $logDir "flask.out.log"
     ErrLog = Join-Path $logDir "flask.err.log"
   },
@@ -41,6 +43,8 @@ $services = @(
     Args = @("run", "dev")
     WorkDir = Join-Path $root "project-backend"
     Url = "http://127.0.0.1:5001/"
+    HealthRetries = 30
+    HealthIntervalMs = 500
     OutLog = Join-Path $logDir "backend.out.log"
     ErrLog = Join-Path $logDir "backend.err.log"
   },
@@ -50,6 +54,8 @@ $services = @(
     Args = @("run", "dev", "--", "--host", "127.0.0.1", "--port", "5173")
     WorkDir = Join-Path $root "project-frontend"
     Url = "http://127.0.0.1:5173/"
+    HealthRetries = 30
+    HealthIntervalMs = 500
     OutLog = Join-Path $logDir "frontend.out.log"
     ErrLog = Join-Path $logDir "frontend.err.log"
   }
@@ -84,9 +90,13 @@ $payload | ConvertTo-Json -Depth 5 | Set-Content -Path $pidFile
 
 foreach ($svc in $started) {
   $ok = $false
-  1..25 | ForEach-Object {
+  $config = $services | Where-Object { $_.Name -eq $svc.name } | Select-Object -First 1
+  $retries = if ($config -and $config.HealthRetries) { [int]$config.HealthRetries } else { 25 }
+  $intervalMs = if ($config -and $config.HealthIntervalMs) { [int]$config.HealthIntervalMs } else { 600 }
+
+  1..$retries | ForEach-Object {
     if ($ok) { return }
-    Start-Sleep -Milliseconds 600
+    Start-Sleep -Milliseconds $intervalMs
     try {
       $null = Invoke-WebRequest -UseBasicParsing -Uri $svc.url -TimeoutSec 2
       $ok = $true
