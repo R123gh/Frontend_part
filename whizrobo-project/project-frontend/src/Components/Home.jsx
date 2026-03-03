@@ -1,29 +1,19 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import {
-  FaFacebookF,
-  FaLinkedinIn,
-  FaInstagram,
-  FaWhatsapp,
+  FaArrowRight,
+  FaRobot,
+  FaToolbox,
 } from "react-icons/fa";
+import GeneralFaqChatbot from "./GeneralFaqChatbot";
 
 const Home = () => {
   return (
     <>
-      {/* Google Font Import */}
-      <style>
-        {`
-          @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap');
-        `}
-      </style>
-
       <div
-        className="flex flex-col min-h-screen bg-white text-black"
-        style={{ fontFamily: "'Montserrat', sans-serif" }}
+        className="flex flex-col min-h-screen bg-gradient-to-b from-[#fffaf5] via-white to-[#fff7ee] text-black"
       >
-        {/* Hero Section */}
         <section className="relative flex flex-col justify-center items-center text-center px-6 min-h-screen overflow-hidden">
-          {/* Background Video */}
           <video
             className="absolute top-0 left-0 w-full h-full object-cover"
             autoPlay
@@ -38,67 +28,89 @@ const Home = () => {
             Your browser does not support the video tag.
           </video>
 
-          {/* Gradient Overlay */}
           <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-black/60 via-black/30 to-black/60"></div>
 
-          {/* Text Content */}
           <div className="relative z-10 max-w-4xl px-4">
             <h1 className="text-3xl sm:text-5xl md:text-7xl font-extrabold text-white leading-tight drop-shadow-[0_4px_6px_rgba(0,0,0,0.9)]">
-              Robotics & AI Education
+              Learn with Kits. Grow with Robots.
             </h1>
 
             <p className="mt-4 text-base sm:text-lg md:text-2xl font-medium text-white max-w-md sm:max-w-3xl mx-auto leading-relaxed drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
-              Making <strong>robotics</strong>, <strong>AI</strong>, and{" "}
-              <strong>technology education</strong> approachable, practical, and
-              exciting for learners of all ages.
+              Start hands-on with STEM kits and move into AI-powered robots.
+              One learning path from first build to real-world automation.
             </p>
 
-            {/* CTA Button */}
-            <Link
-              to="/kits"
-              className="mt-6 sm:mt-10 inline-block bg-[#EC7B21] text-white px-8 sm:px-12 py-3 sm:py-4 rounded-lg font-semibold text-lg
-              shadow-lg hover:shadow-[0_8px_15px_rgba(236,123,33,0.7)]
-              transition-all duration-300 hover:scale-105"
-            >
-              Explore Robot Kits
-            </Link>
-          </div>
-        </section>
-
-        {/* Feature Section */}
-        <section className="py-12 sm:py-20 bg-white">
-          <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 items-center gap-12">
-            {/* Left Text */}
-            <div className="space-y-6 text-center md:text-left">
-              <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-[#EC7B21] leading-tight">
-                Build. Learn. Innovate.
-              </h2>
-              <p className="text-gray-800 text-base sm:text-lg md:text-xl leading-relaxed">
-                Explore the world of robotics and AI with hands-on kits and guided projects.
-                Whizrobo makes learning tech fun, practical, and accessible for everyone.
-              </p>
+            <div className="mt-8 flex flex-wrap items-center justify-center gap-3 sm:gap-4">
               <Link
                 to="/kits"
-                className="inline-block bg-[#EC7B21] text-white px-6 sm:px-10 py-3 sm:py-4 rounded-xl font-semibold 
-                shadow-lg hover:shadow-2xl transition-transform duration-300 hover:scale-105"
+                className="inline-flex items-center gap-2 bg-[#EC7B21] text-white px-7 sm:px-9 py-3 rounded-xl font-semibold text-base sm:text-lg shadow-lg hover:shadow-[0_8px_15px_rgba(236,123,33,0.7)] transition-all duration-300 hover:scale-105"
               >
-                Discover Our Kits
+                Explore Kits
+                <FaArrowRight size={14} />
               </Link>
-            </div>
-
-            {/* Right Image */}
-            <div className="flex justify-center md:justify-end mt-8 md:mt-0">
-              <img
-                src="https://whizrobo.com/wp-content/uploads/2024/11/IBR11-scaled.jpg"
-                alt="Hands-on Robotics Learning"
-                className="rounded-xl shadow-2xl w-full max-w-sm sm:max-w-md object-contain"
-                style={{ aspectRatio: "4/3" }}
-              />
+              <Link
+                to="/robots"
+                className="inline-flex items-center gap-2 bg-white/90 text-gray-900 px-7 sm:px-9 py-3 rounded-xl font-semibold text-base sm:text-lg border border-white/80 shadow-lg hover:bg-white transition-all duration-300 hover:scale-105"
+              >
+                Explore Robots
+                <FaArrowRight size={14} />
+              </Link>
             </div>
           </div>
         </section>
 
-        {/* App Download Section */}
+        <section className="relative py-14 sm:py-20">
+          <div className="max-w-7xl mx-auto px-6">
+            <div className="text-center max-w-3xl mx-auto">
+              <p className="inline-flex items-center rounded-full border border-orange-200 bg-orange-50 px-3 py-1 text-xs font-bold text-orange-700 tracking-wide">
+                WHIZROBO LEARNING JOURNEY
+              </p>
+              <h2 className="mt-4 text-3xl sm:text-4xl md:text-5xl font-extrabold text-gray-900 leading-tight">
+                Choose a track and start building
+              </h2>
+              <p className="mt-3 text-gray-700 text-base sm:text-lg">
+                Kits build the foundation. Robots apply that knowledge to classroom and real AI use-cases.
+              </p>
+            </div>
+
+            <div className="mt-10 grid grid-cols-1 md:grid-cols-2 gap-6">
+              <article className="group rounded-3xl border border-orange-100 bg-white/90 backdrop-blur shadow-[0_18px_45px_rgba(15,23,42,0.08)] p-6 sm:p-7 transition hover:-translate-y-1 hover:shadow-[0_22px_55px_rgba(15,23,42,0.12)]">
+                <div className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-orange-100 text-[#EC7B21]">
+                  <FaToolbox size={20} />
+                </div>
+                <h3 className="mt-4 text-2xl font-extrabold text-gray-900">Kits Section</h3>
+                <p className="mt-3 text-gray-700 leading-relaxed">
+                  Browse IoT and Robotics kits by level, open a specific kit, and view details for grades and activities.
+                </p>
+                <Link
+                  to="/kits"
+                  className="mt-6 inline-flex items-center gap-2 text-[#EC7B21] font-bold hover:text-orange-700 transition"
+                >
+                  Go to Kits
+                  <FaArrowRight size={13} />
+                </Link>
+              </article>
+
+              <article className="group rounded-3xl border border-orange-100 bg-white/90 backdrop-blur shadow-[0_18px_45px_rgba(15,23,42,0.08)] p-6 sm:p-7 transition hover:-translate-y-1 hover:shadow-[0_22px_55px_rgba(15,23,42,0.12)]">
+                <div className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-orange-100 text-[#EC7B21]">
+                  <FaRobot size={20} />
+                </div>
+                <h3 className="mt-4 text-2xl font-extrabold text-gray-900">Robots Section</h3>
+                <p className="mt-3 text-gray-700 leading-relaxed">
+                  Explore WhizBot, WhizBuddy, WhizGreeter, and WhizAaru with use-cases for teaching, support, and automation.
+                </p>
+                <Link
+                  to="/robots"
+                  className="mt-6 inline-flex items-center gap-2 text-[#EC7B21] font-bold hover:text-orange-700 transition"
+                >
+                  Go to Robots
+                  <FaArrowRight size={13} />
+                </Link>
+              </article>
+            </div>
+          </div>
+        </section>
+
         <section className="py-12 flex flex-col items-center gap-4 px-6">
           <a
             href="https://play.google.com/store/apps/details?id=com.whizrobo&pcampaignid=web_share"
@@ -120,6 +132,8 @@ const Home = () => {
             Download
           </a>
         </section>
+
+        <GeneralFaqChatbot />
       </div>
     </>
   );

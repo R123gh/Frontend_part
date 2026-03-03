@@ -52,7 +52,7 @@ class Config:
     MIN_QUERY_LENGTH = int(os.getenv("MIN_QUERY_LENGTH", "1"))
     
     # CORS Configuration
-    CORS_ORIGINS = os.getenv("CORS_ORIGINS", "*")
+    CORS_ORIGINS = os.getenv("CORS_ORIGINS", "http://localhost:5173,http://127.0.0.1:5173")
     
     @staticmethod
     def validate():
@@ -72,6 +72,13 @@ class Config:
             raise ValueError(f"Configuration errors:\n" + "\n".join(f"  - {e}" for e in errors))
         
         return True
+
+    @classmethod
+    def get_cors_origins(cls):
+        raw = (cls.CORS_ORIGINS or "").strip()
+        if not raw or raw == "*":
+            return "*"
+        return [origin.strip() for origin in raw.split(",") if origin.strip()]
     
     @classmethod
     def get_config_info(cls):

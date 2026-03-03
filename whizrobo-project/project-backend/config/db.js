@@ -8,7 +8,10 @@ const connectDB = async () => {
       throw new Error("MONGO_URI is missing. Check project-backend/.env");
     }
 
-    await mongoose.connect(process.env.MONGO_URI);
+    await mongoose.connect(process.env.MONGO_URI, {
+      serverSelectionTimeoutMS: Number(process.env.MONGO_TIMEOUT_MS || 10000),
+      autoIndex: process.env.NODE_ENV !== "production",
+    });
     console.log("MongoDB connected");
   } catch (error) {
     console.error("MongoDB connection failed:", error.message);

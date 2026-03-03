@@ -1,2 +1,36 @@
 @import "tailwindcss";
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap");
 
+html,
+body,
+#root {
+  min-height: 100%;
+}
+
+body {
+  font-family: "Roboto", sans-serif;
+}
+
+.font-roboto-thin {
+  font-weight: 100;
+}
+
+.font-roboto-light {
+  font-weight: 300;
+}
+
+.font-roboto-regular {
+  font-weight: 400;
+}
+
+.font-roboto-medium {
+  font-weight: 500;
+}
+
+.font-roboto-bold {
+  font-weight: 700;
+}
+
+.font-roboto-black {
+  font-weight: 900;
+}

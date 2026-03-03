@@ -33,7 +33,11 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 app = Flask(__name__)
-CORS(app)
+CORS(
+    app,
+    origins=Config.get_cors_origins(),
+    supports_credentials=True,
+)
 
 app.config['MAX_CONTENT_LENGTH'] = Config.MAX_CONTENT_LENGTH
 app.config['SECRET_KEY'] = os.urandom(24)
@@ -619,7 +623,6 @@ def handle_exception(error):
 @app.after_request
 def after_request(response):
     """Add headers to response"""
-    response.headers.add('Access-Control-Allow-Origin', '*')
     response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
     response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS')
     return response

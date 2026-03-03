@@ -1,7 +1,14 @@
-import React, { useState } from "react";
-import { FaArrowRight, FaBars, FaRobot, FaTachometerAlt, FaTimes, FaToolbox } from "react-icons/fa";
+import React, { useMemo, useState } from "react";
+import {
+  FaArrowRight,
+  FaBars,
+  FaRobot,
+  FaSearch,
+  FaTachometerAlt,
+  FaTimes,
+  FaToolbox,
+} from "react-icons/fa";
 
-/* ===================== KITS DATA ===================== */
 const kitsData = {
   IOT: [
     {
@@ -10,7 +17,7 @@ const kitsData = {
       src: "/Level - 6 (IOT Kit).jpg",
       description:
         "Build smart devices and connected solutions for homes, farms, and industrial sensors.",
-      grades: ["GRADES 10–12", "DIGITAL TRANSFORMATION LEARNING", "INTRODUCTION TO IOT"],
+      grades: ["GRADES 10-12", "DIGITAL TRANSFORMATION LEARNING", "INTRODUCTION TO IOT"],
     },
     {
       id: 2,
@@ -18,10 +25,9 @@ const kitsData = {
       src: "/Level - 7 (IOT Kit).jpg",
       description:
         "Bluetooth-enabled kit for wireless communication, smart automation, and robotics projects.",
-      grades: ["GRADES 7–9", "SMART AUTOMATION & MONITORING", "REAL-WORLD IOT EXPERIENCE"],
+      grades: ["GRADES 7-9", "SMART AUTOMATION AND MONITORING", "REAL-WORLD IOT EXPERIENCE"],
     },
   ],
-
   WHIZROBO: [
     {
       id: 3,
@@ -29,7 +35,7 @@ const kitsData = {
       src: "/WHIZ builder (2).jpg",
       description:
         "Entry-level robotics kit to build simple robots and understand circuits.",
-      grades: ["GRADES 1–2", "BASIC ROBOT BUILDING", "FOUNDATION FOR STEM"],
+      grades: ["GRADES 1-2", "BASIC ROBOT BUILDING", "FOUNDATION FOR STEM"],
     },
     {
       id: 4,
@@ -37,7 +43,7 @@ const kitsData = {
       src: "/Whiz Creator.jpg",
       description:
         "Modular STEM kit to explore electronics, sensors, and creative robotics projects.",
-      grades: ["GRADES 3–4", "CREATIVE ROBOTICS & CODING", "CODING CLUB READY"],
+      grades: ["GRADES 3-4", "CREATIVE ROBOTICS AND CODING", "CODING CLUB READY"],
     },
     {
       id: 5,
@@ -45,21 +51,20 @@ const kitsData = {
       src: "/WHIZ BOX.jpg",
       description:
         "All-in-one robotics and electronics experimentation box with built-in sensors.",
-      grades: ["GRADES 3–5", "CLASSROOM DEMOS", "ELECTRONICS & CODING BASICS"],
+      grades: ["GRADES 3-5", "CLASSROOM DEMOS", "ELECTRONICS AND CODING BASICS"],
     },
   ],
 };
 
-/* ===================== ROBOTS DATA ===================== */
 const robotsData = [
   {
     id: "1",
     name: "WhizBot",
-    image: "/WhizBot.jpg",
+    image: "/IMG_3903.png",
     shortDesc: "Automates workflows and delivers intelligent actions for complex tasks.",
     bullets: [
       "Manages multi-step tasks",
-      "Real-time operational support",
+      "Provides real-time operational support",
       "Smart agent for data automation",
     ],
     footer: "Simplifies operations through intelligent workflow management.",
@@ -67,10 +72,10 @@ const robotsData = [
   {
     id: "2",
     name: "WhizBuddy",
-    image: "/WhizBuddy.jpg",
+    image: "/IMG_3942.png",
     shortDesc: "Smart assistant for schools, helping teachers and students.",
     bullets: [
-      "Personalized assistance for students & staff",
+      "Personalized assistance for students and staff",
       "Schedules and reminders management",
       "Facilitates interactive learning",
     ],
@@ -79,11 +84,11 @@ const robotsData = [
   {
     id: "3",
     name: "WhizGreeter",
-    image: "/WhizGreet.jpg",
+    image: "/IMG_3991.png",
     shortDesc: "Welcomes visitors with AI-powered interaction and scheduling.",
     bullets: [
       "Manages front desk communication",
-      "Appointment scheduling & visitor info",
+      "Handles appointment and visitor info",
       "Guides guests with interactive directions",
     ],
     footer: "Delivers a smart and interactive front desk experience.",
@@ -91,18 +96,17 @@ const robotsData = [
   {
     id: "4",
     name: "WhizAaru",
-    image: "/Whiz aaru.jpg",
-    shortDesc: "AI Teacher delivering personalized lessons and real-time support.",
+    image: "/IMG_3994.png",
+    shortDesc: "AI teacher delivering personalized lessons and real-time support.",
     bullets: [
       "Interactive lessons across subjects",
       "Dynamic quizzes and learning paths",
-      "Automates administrative tasks",
+      "Automates educator workflows",
     ],
     footer: "Enhances teaching and learning through intelligent classroom support.",
   },
 ];
 
-/* ===================== SIDEBAR ITEMS ===================== */
 const sidebarItems = [
   { name: "Dashboard", key: "IOT", icon: FaTachometerAlt },
   { name: "Robot Kits", key: "WHIZROBO", icon: FaToolbox },
@@ -112,179 +116,217 @@ const sidebarItems = [
 const Dashboard = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [activeCategory, setActiveCategory] = useState("IOT");
+  const [searchTerm, setSearchTerm] = useState("");
 
   const handleCategoryClick = (key) => {
     setActiveCategory(key);
     setSidebarOpen(false);
   };
 
-  const renderCards = () => {
-    if (activeCategory === "ROBOTS") {
-      return robotsData.map((robot) => (
-        <div
-          key={robot.id}
-          className="group bg-white/95 border border-gray-200 rounded-2xl shadow-sm hover:shadow-2xl hover:shadow-orange-100/60 transition-all duration-300 hover:-translate-y-1 overflow-hidden"
-        >
-          <div className="w-full h-56 md:h-60 flex items-center justify-center bg-gradient-to-br from-orange-50 via-white to-gray-100 p-4 md:p-5">
-            <img
-              src={robot.image}
-              alt={robot.name}
-              className="w-full h-full object-contain transition-transform duration-500 group-hover:scale-[1.04]"
-            />
-          </div>
-          <div className="p-5 md:p-6">
-            <div className="flex items-center justify-between mb-3">
-              <span className="inline-flex items-center gap-2 bg-[#EC7B21]/10 text-[#EC7B21] px-3 py-1 rounded-full text-xs font-semibold tracking-wide">
-                <FaRobot className="text-[11px]" />
-                AI ROBOT
-              </span>
-              <span className="text-xs text-gray-400 font-medium">#{robot.id}</span>
-            </div>
+  const filteredKits = useMemo(() => {
+    const source = kitsData[activeCategory] || [];
+    const query = searchTerm.trim().toLowerCase();
+    if (!query) return source;
+    return source.filter(
+      (item) =>
+        item.name.toLowerCase().includes(query) ||
+        item.description.toLowerCase().includes(query)
+    );
+  }, [activeCategory, searchTerm]);
 
-            <h2 className="text-2xl font-bold text-gray-900 mb-2">{robot.name}</h2>
-            <p className="text-gray-600 mb-4 leading-relaxed">{robot.shortDesc}</p>
+  const filteredRobots = useMemo(() => {
+    const query = searchTerm.trim().toLowerCase();
+    if (!query) return robotsData;
+    return robotsData.filter(
+      (item) =>
+        item.name.toLowerCase().includes(query) ||
+        item.shortDesc.toLowerCase().includes(query)
+    );
+  }, [searchTerm]);
 
-            <ul className="mb-4 space-y-2">
-              {robot.bullets.map((b, idx) => (
-                <li key={idx} className="flex items-start gap-2.5 text-gray-600 text-sm">
-                  <span className="mt-[7px] h-1.5 w-1.5 rounded-full bg-[#EC7B21] flex-shrink-0" />
-                  <span>{b}</span>
-                </li>
-              ))}
-            </ul>
-
-            <p className="text-gray-500 text-sm font-medium leading-relaxed border-t border-gray-100 pt-4">
-              {robot.footer}
-            </p>
-
-            <div className="flex mt-5">
-              <button className="w-full inline-flex items-center justify-center gap-2 bg-[#EC7B21] text-white py-2.5 rounded-xl font-semibold hover:bg-[#d66e1a] transition">
-                View Details
-                <FaArrowRight className="text-xs" />
-              </button>
-            </div>
-          </div>
-        </div>
-      ));
-    } else {
-      return kitsData[activeCategory].map((kit) => (
-        <div
-          key={kit.id}
-          className="bg-white rounded-xl shadow-md hover:shadow-2xl transition-transform transform hover:-translate-y-1"
-        >
-          <img
-            src={kit.src}
-            alt={kit.name}
-            className="w-full h-48 object-cover rounded-t-xl"
-          />
-          <div className="p-5">
-            <h2 className="text-xl font-bold mb-2">{kit.name}</h2>
-            <p className="text-gray-600 mb-3">{kit.description}</p>
-            <div className="flex flex-wrap gap-2 mb-4">
-              {kit.grades.map((grade, idx) => (
-                <span
-                  key={idx}
-                  className="bg-[#EC7B21]/10 text-[#EC7B21] px-3 py-1 rounded-full text-xs font-semibold"
-                >
-                  {grade}
-                </span>
-              ))}
-            </div>
-            <div className="flex">
-              <button className="flex-1 bg-[#EC7B21] text-white py-2 rounded-lg font-medium hover:bg-[#d66e1a] transition">
-                View Details
-              </button>
-            </div>
-          </div>
-        </div>
-      ));
-    }
-  };
+  const isRobots = activeCategory === "ROBOTS";
+  const visibleCount = isRobots ? filteredRobots.length : filteredKits.length;
 
   return (
-    <div className="flex min-h-screen font-sans bg-gray-100 text-gray-900">
-      {/* Sidebar Overlay */}
-      {sidebarOpen && (
-        <div
-          className="fixed inset-0 bg-black/30 z-40 md:hidden"
-          onClick={() => setSidebarOpen(false)}
-        />
-      )}
-
-      {/* Sidebar */}
-      <aside
-        className={`fixed md:static z-50 w-64 bg-white border-r border-gray-200 flex flex-col h-full transform transition-transform duration-300 ${
-          sidebarOpen ? "translate-x-0" : "-translate-x-full"
-        } md:translate-x-0`}
+    <>
+      <div
+        className="flex min-h-screen bg-gradient-to-b from-orange-50/70 via-white to-amber-50/60 text-gray-900"
       >
-        <div className="flex items-center justify-between p-6 text-2xl font-bold text-[#EC7B21]">
-          Whizrobo
+        {sidebarOpen && (
           <button
-            className="md:hidden text-xl"
+            className="fixed inset-0 bg-black/25 z-40 md:hidden"
             onClick={() => setSidebarOpen(false)}
-          >
-            <FaTimes />
-          </button>
-        </div>
-        <nav className="flex-1 px-4">
-          <ul className="space-y-2 mt-4">
-            {sidebarItems.map((item, index) => (
-              <li
-                key={index}
-                onClick={() => handleCategoryClick(item.key)}
-                className={`flex items-center space-x-3 px-4 py-3 rounded-lg cursor-pointer transition ${
-                  activeCategory === item.key
-                    ? "bg-[#EC7B21] text-white"
-                    : "hover:bg-gray-100"
-                }`}
+            aria-label="Close sidebar overlay"
+          />
+        )}
+
+        <aside
+          className={`fixed md:static inset-y-0 left-0 z-50 w-72 bg-white/90 backdrop-blur-xl border-r border-orange-100 shadow-[0_10px_40px_rgba(15,23,42,0.08)] transform transition-transform duration-300 ${
+            sidebarOpen ? "translate-x-0" : "-translate-x-full"
+          } md:translate-x-0`}
+        >
+          <div className="h-full flex flex-col">
+            <div className="flex items-center justify-between px-6 py-5 border-b border-orange-100">
+              <div>
+                <p className="text-xs font-semibold text-orange-700 tracking-wide">WHIZROBO</p>
+                <h2 className="text-xl font-extrabold text-gray-900">Control Panel</h2>
+              </div>
+              <button
+                type="button"
+                className="md:hidden h-9 w-9 rounded-xl border border-orange-100 text-gray-700"
+                onClick={() => setSidebarOpen(false)}
+                aria-label="Close menu"
               >
-                <item.icon className="text-lg" />
-                <span className="font-medium">{item.name}</span>
-              </li>
-            ))}
-          </ul>
-        </nav>
-      </aside>
-
-      {/* Main Content */}
-      <main className="flex-1 flex flex-col w-full">
-        {/* Mobile Header */}
-        <div className="md:hidden flex items-center justify-between bg-white p-4 border-b shadow-sm">
-          <button
-            className="text-2xl"
-            onClick={() => setSidebarOpen(true)}
-          >
-            <FaBars />
-          </button>
-          <span className="font-bold text-[#EC7B21]">Whizrobo</span>
-        </div>
-
-        <div className="p-4 md:p-8 overflow-y-auto">
-          {/* Header */}
-          <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-8 gap-4">
-            <div>
-              <h1 className="text-2xl md:text-3xl font-bold">Dashboard</h1>
-              <p className="text-gray-500">Manage your kits and robots efficiently</p>
+                <FaTimes className="mx-auto" />
+              </button>
             </div>
 
-            <input
-              type="text"
-              placeholder="Search kits or robots..."
-              className="w-full md:w-72 px-4 py-2 rounded-lg border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-[#EC7B21]"
-            />
+            <nav className="flex-1 px-4 py-4">
+              <ul className="space-y-2">
+                {sidebarItems.map((item) => (
+                  <li key={item.key}>
+                    <button
+                      type="button"
+                      onClick={() => handleCategoryClick(item.key)}
+                      className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-left transition ${
+                        activeCategory === item.key
+                          ? "bg-gradient-to-r from-[#EC7B21] to-orange-600 text-white shadow-sm"
+                          : "text-gray-700 hover:bg-orange-50"
+                      }`}
+                    >
+                      <item.icon className="text-sm" />
+                      <span className="font-semibold text-sm">{item.name}</span>
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+          </div>
+        </aside>
+
+        <main className="flex-1 w-full">
+          <div className="md:hidden flex items-center justify-between px-4 py-4 border-b border-orange-100 bg-white/90 backdrop-blur">
+            <button
+              type="button"
+              className="h-10 w-10 rounded-xl border border-orange-100 bg-white text-gray-700"
+              onClick={() => setSidebarOpen(true)}
+              aria-label="Open menu"
+            >
+              <FaBars className="mx-auto" />
+            </button>
+            <span className="font-extrabold text-[#EC7B21]">Dashboard</span>
+            <span className="w-10" />
           </div>
 
-          {/* Cards Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {renderCards()}
+          <div className="max-w-6xl mx-auto p-4 sm:p-6 md:p-8">
+            <div className="rounded-3xl bg-gradient-to-br from-orange-200/70 via-amber-100/50 to-white p-[1px] shadow-[0_18px_55px_rgba(15,23,42,0.10)]">
+              <div className="rounded-3xl bg-white/85 backdrop-blur border border-orange-100/60 p-5 md:p-6">
+                <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                  <div>
+                    <p className="text-xs font-semibold text-orange-700 tracking-wide">WHIZROBO DASHBOARD</p>
+                    <h1 className="text-2xl sm:text-3xl font-extrabold text-gray-900 mt-1">Manage Kits and Robots</h1>
+                    <p className="text-sm text-gray-600 mt-1">
+                      {visibleCount} item{visibleCount === 1 ? "" : "s"} found in {isRobots ? "Robots" : activeCategory}
+                    </p>
+                  </div>
+
+                  <div className="relative w-full md:w-80">
+                    <FaSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-orange-400 text-sm" />
+                    <input
+                      type="text"
+                      value={searchTerm}
+                      onChange={(event) => setSearchTerm(event.target.value)}
+                      placeholder="Search kits or robots..."
+                      className="w-full rounded-xl border border-orange-200/70 bg-white pl-9 pr-4 py-2.5 text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-[#EC7B21]/60"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              {isRobots &&
+                filteredRobots.map((robot) => (
+                  <article
+                    key={robot.id}
+                    className="group rounded-2xl border border-orange-100 bg-white/95 shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden"
+                  >
+                    <div className="w-full h-56 flex items-center justify-center bg-gradient-to-br from-orange-50 via-white to-gray-100 p-5">
+                      <img
+                        src={robot.image}
+                        alt={robot.name}
+                        className="w-full h-full object-contain transition-transform duration-500 group-hover:scale-[1.04]"
+                      />
+                    </div>
+                    <div className="p-5">
+                      <h2 className="text-xl font-extrabold text-gray-900">{robot.name}</h2>
+                      <p className="text-sm text-gray-600 mt-2 leading-relaxed">{robot.shortDesc}</p>
+                      <ul className="mt-3 space-y-2">
+                        {robot.bullets.map((point) => (
+                          <li key={point} className="text-sm text-gray-600 flex items-start gap-2">
+                            <span className="mt-1.5 h-1.5 w-1.5 rounded-full bg-[#EC7B21] flex-shrink-0" />
+                            <span>{point}</span>
+                          </li>
+                        ))}
+                      </ul>
+                      <button
+                        type="button"
+                        className="mt-4 w-full inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[#EC7B21] to-orange-600 text-white py-2.5 text-sm font-semibold transition hover:from-orange-600 hover:to-orange-700"
+                      >
+                        View Details
+                        <FaArrowRight className="text-xs" />
+                      </button>
+                    </div>
+                  </article>
+                ))}
+
+              {!isRobots &&
+                filteredKits.map((kit) => (
+                  <article
+                    key={kit.id}
+                    className="group rounded-2xl border border-orange-100 bg-white/95 shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden"
+                  >
+                    <img
+                      src={kit.src}
+                      alt={kit.name}
+                      className="w-full h-48 object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+                    />
+                    <div className="p-5">
+                      <h2 className="text-xl font-extrabold text-gray-900">{kit.name}</h2>
+                      <p className="text-sm text-gray-600 mt-2 leading-relaxed">{kit.description}</p>
+                      <div className="mt-3 flex flex-wrap gap-2">
+                        {kit.grades.map((grade) => (
+                          <span
+                            key={grade}
+                            className="inline-flex items-center rounded-full border border-orange-200/70 bg-orange-50/70 px-2.5 py-1 text-[10px] font-semibold text-[#EC7B21]"
+                          >
+                            {grade}
+                          </span>
+                        ))}
+                      </div>
+                      <button
+                        type="button"
+                        className="mt-4 w-full inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[#EC7B21] to-orange-600 text-white py-2.5 text-sm font-semibold transition hover:from-orange-600 hover:to-orange-700"
+                      >
+                        View Details
+                        <FaArrowRight className="text-xs" />
+                      </button>
+                    </div>
+                  </article>
+                ))}
+            </div>
+
+            {visibleCount === 0 && (
+              <div className="mt-8 rounded-2xl border border-orange-100 bg-white/90 p-8 text-center">
+                <p className="text-gray-700 font-semibold">No matching items found.</p>
+                <p className="text-sm text-gray-500 mt-1">Try a different keyword or change the category.</p>
+              </div>
+            )}
           </div>
-        </div>
-      </main>
-    </div>
+        </main>
+      </div>
+    </>
   );
 };
 
 export default Dashboard;
-
-
-

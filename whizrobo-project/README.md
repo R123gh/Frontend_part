@@ -96,3 +96,7 @@ If you want to stop old tracked services first and then restart:
 - Serve frontend and backend under same domain (or reverse proxy via Nginx).
 - Keep Flask internal/private network, not directly exposed to browser.
 - Configure only backend `RAG_FLASK_URL` per environment.
+- Set strict `CORS_ALLOWED_ORIGINS` (backend) and `CORS_ORIGINS` (Flask), never `*` for internet-facing deployments.
+- Use a strong `JWT_SECRET` (32+ chars) and HTTPS so secure auth cookies are enforced.
+- Run Flask with Gunicorn, for example:
+  `gunicorn --chdir project-rag-python/backend -w 2 -b 0.0.0.0:5000 wsgi:app`

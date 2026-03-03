@@ -75,16 +75,8 @@ const RobotDetails = () => {
 
   return (
     <>
-      {/* Google Font */}
-      <style>
-        {`
-          @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap');
-        `}
-      </style>
-
       <main
         className="min-h-screen bg-gradient-to-b from-gray-50 to-white pt-24 px-6 flex justify-center font-sans"
-        style={{ fontFamily: "'Montserrat', sans-serif" }}
       >
         <div className="w-full max-w-[1400px] flex flex-col md:flex-row items-center md:items-start gap-12">
           {/* Text Content */}
