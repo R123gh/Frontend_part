@@ -10,6 +10,7 @@ const robotsData = [
     image: "/IMG_3903.png",
     shortDesc:
       "Automates workflows and delivers intelligent actions to simplify complex tasks.",
+    manualFile: "whizbot-user-manual.pdf",
     description: "WHIZ BOT - AI AGENT",
     bullets: [
       "Automates complex workflows and manages multi-step tasks.",
@@ -25,6 +26,7 @@ const robotsData = [
     image: "/IMG_3942.png",
     shortDesc:
       "Smart assistant for schools, helping teachers manage classrooms and support students.",
+    manualFile: "whizbuddy-user-manual.pdf",
     description: "WHIZ BUDDY - AI ASSISTANT",
     bullets: [
       "Supports students and staff with personalized assistance.",
@@ -40,6 +42,7 @@ const robotsData = [
     image: "/IMG_3991.png",
     shortDesc:
       "Welcomes visitors with AI-powered interaction, face recognition, and scheduling assistance.",
+    manualFile: "whizgreeter-user-manual.pdf",
     description: "WHIZ GREETER - AI RECEPTIONIST",
     bullets: [
       "Welcomes visitors and manages front desk communications.",
@@ -55,6 +58,7 @@ const robotsData = [
     image: "/IMG_3994.png",
     shortDesc:
       "AI Teacher delivering personalized lessons, quizzes, and real-time learning support.",
+    manualFile: "whizaaru-user-manual.pdf",
     description: "WHIZ AARU - AI TEACHER",
     bullets: [
       "Delivers interactive, personalized lessons across subjects.",
@@ -81,7 +85,11 @@ const getSmartReply = (query, contextLabel) => {
     /^(hi|hii|hello|hey|heyy|good morning|good afternoon|good evening)$/.test(normalized) ||
     ((/\b(hi|hii|hello|hey)\b/.test(normalized) && normalized.split(" ").length <= 4));
   if (isGreeting) {
-    return `Hello! I can help you with ${contextLabel}. Ask about features, use-cases, deployment flow, integration, or which robot best fits your requirement.`;
+    return (
+      `Hello! Whizrobo is the organization, and under it we have four robots: ` +
+      `WhizBot, WhizBuddy, WhizAaru, and WhizGreeter (WhizGreet). ` +
+      `I can help you with ${contextLabel}. Ask about features, use-cases, deployment flow, integration, or which robot best fits your requirement.`
+    );
   }
 
   if (/\b(thank you|thanks|thx)\b/.test(normalized)) {
@@ -132,6 +140,12 @@ const extractApiErrorMessage = async (response, fallback) => {
   return text?.trim() || fallback;
 };
 
+const getManualUrl = (fileName) => {
+  if (!fileName) return "#";
+  const base = API_BASE_URL || "";
+  return `${base}/api/manuals/${encodeURIComponent(fileName)}`;
+};
+
 const Robots = () => {
   const [isChatOpen, setIsChatOpen] = useState(false);
   const [ragInput, setRagInput] = useState("");
@@ -144,7 +158,8 @@ const Robots = () => {
   const [ragMessages, setRagMessages] = useState([
     {
       role: "assistant",
-      content: "Ask me anything about our robots, features, and use-cases.",
+      content:
+        "Whizrobo is the organization. Under it, we have four robots: WhizBot, WhizBuddy, WhizAaru, and WhizGreeter (WhizGreet). Ask me anything about their features and use-cases.",
     },
   ]);
   const messagesEndRef = useRef(null);
@@ -449,6 +464,15 @@ const Robots = () => {
                   <p className="text-gray-900 font-semibold text-lg leading-relaxed">
                     {robot.footer}
                   </p>
+
+                  <div className="mt-6">
+                    <a
+                      href={getManualUrl(robot.manualFile)}
+                      className="inline-flex items-center rounded-xl bg-gradient-to-r from-[#EC7B21] to-orange-600 text-white px-5 py-2.5 text-sm font-semibold shadow-sm transition hover:from-orange-600 hover:to-orange-700 hover:shadow-md"
+                    >
+                      User Manual
+                    </a>
+                  </div>
                 </div>
               </div>
             </div>
@@ -472,7 +496,7 @@ const Robots = () => {
                   <span className="inline-flex h-7 w-7 items-center justify-center rounded-lg bg-white/15 ring-1 ring-white/25">
                     <FaRobot size={14} />
                   </span>
-                  <span>More about Robot</span>
+                  <span>More about Robots</span>
                   <span className="relative inline-flex h-2.5 w-2.5">
                     <span className="absolute inline-flex h-full w-full rounded-full bg-emerald-200 opacity-75 animate-ping" />
                     <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-400" />
@@ -554,7 +578,7 @@ const Robots = () => {
                 onKeyDown={(e) => {
                   if (e.key === "Enter") askRobotRag();
                 }}
-                placeholder="Ask about WhizBot, WhizBuddy, WhizGreeter..."
+                placeholder="Ask about WhizBot, WhizBuddy, WhizAaru, WhizGreeter..."
                 className="order-1 basis-full sm:basis-auto sm:order-none flex-1 border border-orange-200/70 bg-white rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#EC7B21]/60"
               />
               <button
@@ -597,7 +621,7 @@ const Robots = () => {
             <span className="relative inline-flex h-7 w-7 items-center justify-center rounded-full bg-white/20 text-sm">
               <FaRobot size={15} />
             </span>
-            <span className="relative font-semibold text-sm tracking-wide hidden xs:inline">More about Robots</span>
+            <span className="relative font-semibold text-sm tracking-wide">More about Robots</span>
           </button>
         </div>
       </section>

@@ -11,6 +11,102 @@ body {
   font-family: "Roboto", sans-serif;
 }
 
+html.theme-dark,
+body.theme-dark {
+  background: #020617;
+}
+
+html.theme-dark body {
+  color: #e2e8f0;
+}
+
+html.theme-dark [class*="text-gray-900"] {
+  color: #f8fafc !important;
+}
+
+html.theme-dark [class*="text-gray-800"] {
+  color: #e2e8f0 !important;
+}
+
+html.theme-dark [class*="text-gray-700"] {
+  color: #cbd5e1 !important;
+}
+
+html.theme-dark [class*="text-gray-600"],
+html.theme-dark [class*="text-gray-500"] {
+  color: #cbd5e1 !important;
+}
+
+html.theme-dark [class*="text-black"] {
+  color: #f8fafc !important;
+}
+
+html.theme-dark [class*="bg-white"] {
+  background-color: rgba(15, 23, 42, 0.86) !important;
+}
+
+html.theme-dark [class*="bg-gray-50"],
+html.theme-dark [class*="bg-gray-100"] {
+  background-color: rgba(15, 23, 42, 0.92) !important;
+}
+
+html.theme-dark [class*="bg-gradient-to-b"][class*="via-white"],
+html.theme-dark [class*="bg-gradient-to-b"][class*="to-amber-50"],
+html.theme-dark [class*="bg-gradient-to-b"][class*="to-gray-100"],
+html.theme-dark [class*="bg-gradient-to-br"][class*="via-amber-100"],
+html.theme-dark [class*="bg-gradient-to-br"][class*="to-white"] {
+  background-image: none !important;
+  background-color: #0f172a !important;
+}
+
+html.theme-dark [class*="border-orange-100"],
+html.theme-dark [class*="border-orange-200"],
+html.theme-dark [class*="border-gray-300"] {
+  border-color: #334155 !important;
+}
+
+html.theme-dark input,
+html.theme-dark select,
+html.theme-dark textarea {
+  background-color: #0f172a !important;
+  color: #e2e8f0 !important;
+  border-color: #334155 !important;
+}
+
+html.theme-dark input::placeholder,
+html.theme-dark textarea::placeholder {
+  color: #94a3b8 !important;
+}
+
+html.theme-dark option {
+  background-color: #0f172a;
+  color: #e2e8f0;
+}
+
+.theme-toggle-btn {
+  border: 1px solid transparent;
+}
+
+html:not(.theme-dark) .theme-toggle-btn {
+  background: #0f172a !important;
+  color: #ffffff !important;
+  border-color: #0f172a !important;
+}
+
+html:not(.theme-dark) .theme-toggle-btn:hover {
+  background: #1e293b !important;
+}
+
+html.theme-dark .theme-toggle-btn {
+  background: #f8fafc !important;
+  color: #0f172a !important;
+  border-color: #cbd5e1 !important;
+}
+
+html.theme-dark .theme-toggle-btn:hover {
+  background: #e2e8f0 !important;
+}
+
 .font-roboto-thin {
   font-weight: 100;
 }

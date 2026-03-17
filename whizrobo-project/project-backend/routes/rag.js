@@ -37,7 +37,10 @@ const getFileExtension = (mimeType = "") => {
 
 const buildFlaskUrl = () => {
   const configuredUrl = (process.env.RAG_FLASK_URL || "").trim();
-  const configuredBaseUrl = process.env.RAG_FLASK_BASE_URL || "http://127.0.0.1:5000";
+  const vercelUrl = process.env.VERCEL_URL
+    ? `https://${String(process.env.VERCEL_URL).replace(/^https?:\/\//, "")}`
+    : "";
+  const configuredBaseUrl = process.env.RAG_FLASK_BASE_URL || vercelUrl || "http://127.0.0.1:5000";
   const configuredEndpoint = process.env.RAG_FLASK_ENDPOINT || "/api/query";
   const queryUrl = configuredUrl
     || `${configuredBaseUrl.replace(/\/$/, "")}/${configuredEndpoint.replace(/^\//, "")}`;

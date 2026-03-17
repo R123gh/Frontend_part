@@ -17,9 +17,9 @@ import Robots from "./Components/Robots";
 import RobotDetails from "./Components/RobotDetails";
 import TermsAndConditions from "./Components/TermsAndConditions";
 import Privacy from "./Components/Privacy";
-import Kits from "./Components/Kits";
 import Dashboard from "./Components/Dashboard";
 import Profile from "./Components/Profile";
+import { useTheme } from "./context/ThemeContext";
 
 const ProtectedRoute = ({ element }) => {
   const user = localStorage.getItem("user");
@@ -27,12 +27,14 @@ const ProtectedRoute = ({ element }) => {
 };
 
 function App() {
+  const { isDark } = useTheme();
+
   return (
     <>
       <Toaster position="top-right" reverseOrder={false} />
 
       <Router>
-        <div className="flex flex-col min-h-screen">
+        <div className={`flex flex-col min-h-screen ${isDark ? "bg-slate-950 text-slate-100" : "bg-white text-gray-900"}`}>
           <Navbar />
 
           <main className="flex-grow pt-20">
@@ -45,7 +47,6 @@ function App() {
               <Route path="/register" element={<Login />} />
               <Route path="/terms" element={<TermsAndConditions />} />
               <Route path="/contact" element={<Contact />} />
-              <Route path="/kits" element={<Kits />} />
               <Route path="/robots" element={<Robots />} />
               <Route path="/robots/:id" element={<RobotDetails />} />
               <Route path="/about" element={<AboutUs />} />
@@ -54,7 +55,13 @@ function App() {
             </Routes>
           </main>
 
-          <footer className="relative overflow-hidden border-t border-orange-100 bg-gradient-to-b from-[#20130a] to-[#120c08] text-orange-50 w-full">
+          <footer
+            className={`relative overflow-hidden border-t w-full ${
+              isDark
+                ? "border-slate-700 bg-gradient-to-b from-slate-950 to-slate-900 text-slate-100"
+                : "border-orange-100 bg-gradient-to-b from-[#20130a] to-[#120c08] text-orange-50"
+            }`}
+          >
             <div aria-hidden="true" className="pointer-events-none absolute inset-0">
               <div className="absolute -top-20 -left-16 h-60 w-60 rounded-full bg-orange-500/20 blur-3xl" />
               <div className="absolute top-14 right-0 h-56 w-56 rounded-full bg-amber-300/10 blur-3xl" />
@@ -78,7 +85,6 @@ function App() {
                   <li><Link to="/" className="hover:text-white transition">Home</Link></li>
                   <li><Link to="/about" className="hover:text-white transition">About Us</Link></li>
                   <li><Link to="/robots" className="hover:text-white transition">Robots</Link></li>
-                  <li><Link to="/kits" className="hover:text-white transition">Kits</Link></li>
                   <li><Link to="/contact" className="hover:text-white transition">Contact</Link></li>
                   <li><Link to="/privacy-policy" className="hover:text-white transition">Privacy Policy</Link></li>
                   <li><Link to="/terms" className="hover:text-white transition">Terms & Conditions</Link></li>

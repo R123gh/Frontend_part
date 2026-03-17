@@ -91,6 +91,30 @@ If you want to stop old tracked services first and then restart:
 .\start-services.ps1 -Clean
 ```
 
+## Vercel Deployment (Frontend + API)
+
+This repo is configured to deploy everything on Vercel:
+
+- `project-frontend` builds to a static site.
+- `api/**/*.js` hosts the Node/Express API.
+- `api/**/*.py` hosts the Flask RAG endpoints.
+
+### Steps
+
+1. Import the repo into Vercel.
+2. Add environment variables:
+   - `MONGO_URI`
+   - `JWT_SECRET` (32+ chars recommended)
+   - `GROQ_API_KEY`
+   - `OCR_SPACE_API_KEY`
+   - `CORS_ALLOWED_ORIGINS` (e.g. `https://your-domain.vercel.app`)
+   - `CORS_ORIGINS` (same as above for Flask)
+3. Deploy.
+
+Optional:
+- `RAG_FLASK_BASE_URL` (defaults to the current Vercel domain).
+- `CHROMA_DB_PATH` (defaults to `vector_db` inside the Python backend).
+
 ## Production Recommendation
 
 - Serve frontend and backend under same domain (or reverse proxy via Nginx).

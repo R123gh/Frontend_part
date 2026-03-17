@@ -7,6 +7,7 @@ import io
 import os
 import re
 import sqlite3
+import shutil
 from werkzeug.utils import secure_filename
 
 from config import Config
@@ -21,13 +22,20 @@ from utils import (
     get_file_size_mb
 )
 
+_log_handlers = [logging.StreamHandler()]
+if not os.getenv("VERCEL"):
+    log_file = getattr(Config, "LOG_FILE", "logs/app.log")
+    log_dir = os.path.dirname(log_file) or "logs"
+    try:
+        os.makedirs(log_dir, exist_ok=True)
+        _log_handlers.append(logging.FileHandler(log_file))
+    except Exception:
+        pass
+
 logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-    handlers=[
-        logging.FileHandler('logs/app.log'),
-        logging.StreamHandler()
-    ]
+    handlers=_log_handlers
 )
 
 logger = logging.getLogger(__name__)
@@ -58,6 +66,29 @@ def resolve_db_path(path_value):
     if os.path.isabs(path_value):
         return path_value
     return os.path.normpath(os.path.join(BASE_DIR, path_value))
+
+def prepare_chroma_dir(path_value, label="chroma"):
+    resolved = resolve_db_path(path_value)
+    if not resolved:
+        return resolved
+
+    resolved_dir = resolved if os.path.isdir(resolved) else os.path.dirname(resolved)
+    if not os.path.exists(resolved_dir):
+        return resolved_dir
+
+    if not os.getenv("VERCEL"):
+        return resolved_dir
+
+    tmp_dir = os.path.join("/tmp", f"whizrobo_{label}_db")
+    if not os.path.exists(tmp_dir):
+        try:
+            shutil.copytree(resolved_dir, tmp_dir, dirs_exist_ok=True)
+            logger.info("Copied Chroma DB to temp dir: %s", tmp_dir)
+        except Exception as exc:
+            logger.warning("Failed to copy Chroma DB to temp dir: %s", str(exc))
+            return resolved_dir
+
+    return tmp_dir
 
 def resolve_sqlite_file(db_path):
     if not db_path:
@@ -140,14 +171,17 @@ def initialize_services():
         
         embedding_service = EmbeddingService(Config.MODEL_NAME)
         
-        default_db_path = resolve_db_path(Config.CHROMA_DB_PATH)
+        default_db_path = prepare_chroma_dir(Config.CHROMA_DB_PATH, "chroma")
         vector_db_service = VectorDBService(
             db_path=default_db_path,
             collection_name='video_chunks'
         )
 
         robot_collection_name = os.getenv("ROBOT_COLLECTION_NAME", "robot_chunks")
-        robot_db_path = resolve_db_path(os.getenv("ROBOT_CHROMA_DB_PATH", Config.CHROMA_DB_PATH))
+        robot_db_path = prepare_chroma_dir(
+            os.getenv("ROBOT_CHROMA_DB_PATH", Config.CHROMA_DB_PATH),
+            "robot"
+        )
         robot_db_path_resolved = robot_db_path
         try:
             robot_vector_db_service = VectorDBService(
@@ -252,6 +286,10 @@ def health_check():
             'error': str(e)
         }), 500
 
+@app.route('/api/health', methods=['GET'])
+def api_health_check():
+    return health_check()
+
 @app.route('/api/query', methods=['POST'])
 def api_query_text():
     """Text query endpoint"""
@@ -295,7 +333,7 @@ def api_query_text():
         
         context = "\n\n".join(results['documents'][0])
         
-        prompt = llm_service.build_text_query_prompt(
+        prompt = llm_service.build_robot_query_prompt(
             context=context,
             query=query
         )

@@ -3,9 +3,7 @@ import { Link } from "react-router-dom";
 import {
   FaArrowRight,
   FaRobot,
-  FaToolbox,
 } from "react-icons/fa";
-import GeneralFaqChatbot from "./GeneralFaqChatbot";
 
 const Home = () => {
   return (
@@ -32,25 +30,18 @@ const Home = () => {
 
           <div className="relative z-10 max-w-4xl px-4">
             <h1 className="text-3xl sm:text-5xl md:text-7xl font-extrabold text-white leading-tight drop-shadow-[0_4px_6px_rgba(0,0,0,0.9)]">
-              Learn with Kits. Grow with Robots.
+              Discover the Future with Robots.
             </h1>
 
             <p className="mt-4 text-base sm:text-lg md:text-2xl font-medium text-white max-w-md sm:max-w-3xl mx-auto leading-relaxed drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
-              Start hands-on with STEM kits and move into AI-powered robots.
-              One learning path from first build to real-world automation.
+              Explore AI-powered robots built for teaching, assistance, and
+              real-world automation in schools and institutions.
             </p>
 
             <div className="mt-8 flex flex-wrap items-center justify-center gap-3 sm:gap-4">
               <Link
-                to="/kits"
-                className="inline-flex items-center gap-2 bg-[#EC7B21] text-white px-7 sm:px-9 py-3 rounded-xl font-semibold text-base sm:text-lg shadow-lg hover:shadow-[0_8px_15px_rgba(236,123,33,0.7)] transition-all duration-300 hover:scale-105"
-              >
-                Explore Kits
-                <FaArrowRight size={14} />
-              </Link>
-              <Link
                 to="/robots"
-                className="inline-flex items-center gap-2 bg-white/90 text-gray-900 px-7 sm:px-9 py-3 rounded-xl font-semibold text-base sm:text-lg border border-white/80 shadow-lg hover:bg-white transition-all duration-300 hover:scale-105"
+                className="inline-flex items-center gap-2 bg-[#EC7B21] text-white px-7 sm:px-9 py-3 rounded-xl font-semibold text-base sm:text-lg shadow-lg hover:shadow-[0_8px_15px_rgba(236,123,33,0.7)] transition-all duration-300 hover:scale-105"
               >
                 Explore Robots
                 <FaArrowRight size={14} />
@@ -63,35 +54,18 @@ const Home = () => {
           <div className="max-w-7xl mx-auto px-6">
             <div className="text-center max-w-3xl mx-auto">
               <p className="inline-flex items-center rounded-full border border-orange-200 bg-orange-50 px-3 py-1 text-xs font-bold text-orange-700 tracking-wide">
-                WHIZROBO LEARNING JOURNEY
+                WHIZROBO ROBOTS
               </p>
               <h2 className="mt-4 text-3xl sm:text-4xl md:text-5xl font-extrabold text-gray-900 leading-tight">
-                Choose a track and start building
+                Build your robotics journey
               </h2>
               <p className="mt-3 text-gray-700 text-base sm:text-lg">
-                Kits build the foundation. Robots apply that knowledge to classroom and real AI use-cases.
+                Meet the robots designed for education, engagement, and smart automation.
               </p>
             </div>
 
-            <div className="mt-10 grid grid-cols-1 md:grid-cols-2 gap-6">
-              <article className="group rounded-3xl border border-orange-100 bg-white/90 backdrop-blur shadow-[0_18px_45px_rgba(15,23,42,0.08)] p-6 sm:p-7 transition hover:-translate-y-1 hover:shadow-[0_22px_55px_rgba(15,23,42,0.12)]">
-                <div className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-orange-100 text-[#EC7B21]">
-                  <FaToolbox size={20} />
-                </div>
-                <h3 className="mt-4 text-2xl font-extrabold text-gray-900">Kits Section</h3>
-                <p className="mt-3 text-gray-700 leading-relaxed">
-                  Browse IoT and Robotics kits by level, open a specific kit, and view details for grades and activities.
-                </p>
-                <Link
-                  to="/kits"
-                  className="mt-6 inline-flex items-center gap-2 text-[#EC7B21] font-bold hover:text-orange-700 transition"
-                >
-                  Go to Kits
-                  <FaArrowRight size={13} />
-                </Link>
-              </article>
-
-              <article className="group rounded-3xl border border-orange-100 bg-white/90 backdrop-blur shadow-[0_18px_45px_rgba(15,23,42,0.08)] p-6 sm:p-7 transition hover:-translate-y-1 hover:shadow-[0_22px_55px_rgba(15,23,42,0.12)]">
+            <div className="mt-10 grid grid-cols-1 gap-6">
+              <article className="group rounded-3xl border border-orange-100 bg-white/90 backdrop-blur shadow-[0_18px_45px_rgba(15,23,42,0.08)] p-6 sm:p-7 transition hover:-translate-y-1 hover:shadow-[0_22px_55px_rgba(15,23,42,0.12)] max-w-3xl mx-auto">
                 <div className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-orange-100 text-[#EC7B21]">
                   <FaRobot size={20} />
                 </div>
@@ -132,8 +106,6 @@ const Home = () => {
             Download
           </a>
         </section>
-
-        <GeneralFaqChatbot />
       </div>
     </>
   );

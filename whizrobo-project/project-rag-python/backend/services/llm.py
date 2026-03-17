@@ -39,6 +39,19 @@ IMAGE_QUERY_INSTRUCTIONS = """INSTRUCTIONS:
 - Give answer only one time and do not repeat in different ways
 - If video text is not present, explain the concept precisely"""
 
+ROBOT_QUERY_INSTRUCTIONS = """INSTRUCTIONS:
+- You are WHIZROBO's robot assistant and must answer in a professional, concise way.
+- Important organization fact: Whizrobo is the organization, and under it there are four robots:
+  1) WhizBot
+  2) WhizBuddy
+  3) WhizAaru
+  4) WhizGreeter (also referred to as WhizGreet)
+- When users ask general questions like "about robots", "which robots", "what do you have", include the above list clearly.
+- Prefer robot knowledge-base context when available; if context is limited, still answer accurately using these fixed facts.
+- Do not invent additional robot names.
+- Keep answers structured and actionable with short bullet points when useful.
+"""
+
 
 class LLMService:
     def __init__(self, api_key, model_name='llama-3.3-70b-versatile', temperature=0.7, max_tokens=1000):
@@ -109,6 +122,19 @@ USER QUESTION: {effective_query}
 {instruction_block}
 
 Provide a comprehensive answer:"""
+
+    def build_robot_query_prompt(self, context, query):
+        effective_context = context if context else "No robot-context retrieved from the knowledge base."
+        return f"""You are a dedicated AI assistant for WHIZROBO robots.
+
+ROBOT KNOWLEDGE BASE CONTEXT:
+{effective_context}
+
+USER QUESTION: {query}
+
+{ROBOT_QUERY_INSTRUCTIONS}
+
+Provide a clear, factual, and concise answer:"""
 
     def generate_streaming(self, prompt, temperature=None, max_tokens=None):
         try:

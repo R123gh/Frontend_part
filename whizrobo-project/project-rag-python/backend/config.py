@@ -11,7 +11,7 @@ class Config:
     OCR_SPACE_API_KEY = os.getenv("OCR_SPACE_API_KEY")
     
     # Database
-    CHROMA_DB_PATH = os.getenv("CHROMA_DB_PATH", "../chroma_db")
+    CHROMA_DB_PATH = os.getenv("CHROMA_DB_PATH", "vector_db")
     
     # Model Configuration
     MODEL_NAME = os.getenv("MODEL_NAME", "all-MiniLM-L6-v2")

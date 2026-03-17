@@ -4,6 +4,7 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const User = require("../models/User");
 const LoginAttempt = require("../models/LoginAttempt");
+const Notification = require("../models/Notification");
 const { COOKIE_NAME, requireAuth } = require("../middleware/auth");
 
 const TOKEN_EXPIRES_IN = process.env.JWT_EXPIRES_IN || "1h";
@@ -47,6 +48,16 @@ const validateRegisterInput = ({ name, email, password }) => {
   return "";
 };
 
+const validateProfileInput = ({ name, email }) => {
+  if (!name || typeof name !== "string" || name.trim().length < 2) {
+    return "Name must be at least 2 characters.";
+  }
+  if (!email || typeof email !== "string" || !email.includes("@")) {
+    return "Valid email is required.";
+  }
+  return "";
+};
+
 router.post("/register", async (req, res) => {
   const { name = "", email = "", password = "" } = req.body || {};
 
@@ -67,6 +78,13 @@ router.post("/register", async (req, res) => {
       password: hashedPassword,
     });
     await newUser.save();
+
+    await Notification.create({
+      userId: newUser._id,
+      title: "Welcome to WHIZROBO",
+      message: "Your account is ready. Explore robots and resources from your dashboard.",
+      type: "success",
+    });
 
     const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET, { expiresIn: TOKEN_EXPIRES_IN });
     setAuthCookie(res, token);
@@ -146,6 +164,42 @@ router.get("/me", requireAuth, async (req, res) => {
     const user = await User.findById(req.user.id).select("_id name email");
     if (!user) return res.status(404).json({ msg: "User not found." });
     return res.json({ user: sanitizeUser(user) });
+  } catch {
+    return res.status(500).json({ msg: "Server error" });
+  }
+});
+
+router.patch("/me", requireAuth, async (req, res) => {
+  const { name = "", email = "" } = req.body || {};
+  try {
+    const inputError = validateProfileInput({ name, email });
+    if (inputError) return res.status(400).json({ msg: inputError });
+
+    const normalizedEmail = email.trim().toLowerCase();
+    const existingEmailOwner = await User.findOne({
+      email: normalizedEmail,
+      _id: { $ne: req.user.id },
+    }).select("_id");
+    if (existingEmailOwner) {
+      return res.status(400).json({ msg: "Email is already in use." });
+    }
+
+    const updatedUser = await User.findByIdAndUpdate(
+      req.user.id,
+      { name: name.trim(), email: normalizedEmail },
+      { new: true, runValidators: true }
+    ).select("_id name email");
+
+    if (!updatedUser) return res.status(404).json({ msg: "User not found." });
+
+    await Notification.create({
+      userId: updatedUser._id,
+      title: "Profile Updated",
+      message: "Your profile details were updated successfully.",
+      type: "info",
+    });
+
+    return res.json({ user: sanitizeUser(updatedUser) });
   } catch {
     return res.status(500).json({ msg: "Server error" });
   }

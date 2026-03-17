@@ -12,7 +12,6 @@ whizrobo-project/*.run.out.log
 whizrobo-project/tmp_*.json
 whizrobo-project/project-rag-python/backend/logs/
 whizrobo-project/project-rag-python/backend/vector_store/
-whizrobo-project/project-rag-python/backend/vector_db/
 whizrobo-project/project-rag-python/backend/chroma_db/
 whizrobo-project/project-rag-python/backend/.env
 whizrobo-project/project-backend/.env
