@@ -3,6 +3,8 @@ import csv
 import logging
 import math
 import os
+import re
+import sqlite3
 
 try:
     import chromadb  # type: ignore
@@ -19,6 +21,8 @@ class VectorDBService:
         self.mode = "chroma"
         self.collection_name = collection_name
         self._fallback_records = []
+        self._fallback_docs = []
+        self.db_path = db_path
 
         fallback_csv_path = os.getenv(
             "EMBEDDINGS_CSV_PATH",
@@ -40,7 +44,7 @@ class VectorDBService:
                 CHROMADB_IMPORT_ERROR,
                 fallback_csv_path,
             )
-            self._initialize_fallback(fallback_csv_path)
+            self._initialize_fallback(fallback_csv_path, sqlite_path=db_path)
             return
 
         try:
@@ -60,7 +64,7 @@ class VectorDBService:
                     str(exc),
                     fallback_csv_path,
                 )
-                self._initialize_fallback(fallback_csv_path)
+                self._initialize_fallback(fallback_csv_path, sqlite_path=db_path)
 
         except Exception as exc:
             logger.warning(
@@ -68,55 +72,86 @@ class VectorDBService:
                 str(exc),
                 fallback_csv_path,
             )
-            self._initialize_fallback(fallback_csv_path)
+            self._initialize_fallback(fallback_csv_path, sqlite_path=db_path)
 
-    def _initialize_fallback(self, csv_path):
-        if not os.path.exists(csv_path):
-            raise ValueError(
-                f"CSV fallback file not found: {csv_path}. "
-                "Set EMBEDDINGS_CSV_PATH to a valid embeddings CSV."
+    def _resolve_sqlite_file(self, db_path):
+        if not db_path:
+            return None
+        if os.path.isdir(db_path):
+            candidate = os.path.join(db_path, "chroma.sqlite3")
+            return candidate if os.path.exists(candidate) else None
+        return db_path if os.path.exists(db_path) else None
+
+    def _load_docs_from_sqlite(self, sqlite_file):
+        try:
+            conn = sqlite3.connect(sqlite_file)
+            cur = conn.cursor()
+            cur.execute(
+                "SELECT string_value FROM embedding_metadata WHERE key='chroma:document'"
             )
+            rows = [r[0] for r in cur.fetchall() if r and r[0]]
+            conn.close()
+            return rows
+        except Exception as exc:
+            logger.warning("SQLite fallback load failed: %s", str(exc))
+            return []
 
-        records = []
-        with open(csv_path, "r", encoding="utf-8", newline="") as handle:
-            reader = csv.DictReader(handle)
-            for row in reader:
-                text = (row.get("text") or "").strip()
-                emb_raw = row.get("embeddings")
-                if not text or not emb_raw:
-                    continue
+    def _initialize_fallback(self, csv_path, sqlite_path=None):
+        if os.path.exists(csv_path):
+            records = []
+            with open(csv_path, "r", encoding="utf-8", newline="") as handle:
+                reader = csv.DictReader(handle)
+                for row in reader:
+                    text = (row.get("text") or "").strip()
+                    emb_raw = row.get("embeddings")
+                    if not text or not emb_raw:
+                        continue
 
-                try:
-                    embedding = ast.literal_eval(emb_raw)
-                except Exception:
-                    continue
+                    try:
+                        embedding = ast.literal_eval(emb_raw)
+                    except Exception:
+                        continue
 
-                if not isinstance(embedding, list) or not embedding:
-                    continue
+                    if not isinstance(embedding, list) or not embedding:
+                        continue
 
-                try:
-                    embedding = [float(value) for value in embedding]
-                except Exception:
-                    continue
+                    try:
+                        embedding = [float(value) for value in embedding]
+                    except Exception:
+                        continue
 
-                records.append(
-                    {
-                        "id": str(len(records)),
-                        "text": text,
-                        "embedding": embedding,
-                        "metadata": {
-                            "index": row.get("index"),
-                            "chunk_num": row.get("chunk_num"),
-                        },
-                    }
-                )
+                    records.append(
+                        {
+                            "id": str(len(records)),
+                            "text": text,
+                            "embedding": embedding,
+                            "metadata": {
+                                "index": row.get("index"),
+                                "chunk_num": row.get("chunk_num"),
+                            },
+                        }
+                    )
 
-        if not records:
-            raise ValueError(f"No valid embeddings found in fallback CSV: {csv_path}")
+            if records:
+                self.mode = "fallback_csv"
+                self._fallback_records = records
+                logger.info("Fallback vector DB initialized from CSV with %s records", len(self._fallback_records))
+                return
 
-        self.mode = "fallback_csv"
-        self._fallback_records = records
-        logger.info("Fallback vector DB initialized from CSV with %s records", len(self._fallback_records))
+        sqlite_file = self._resolve_sqlite_file(
+            sqlite_path or os.getenv("CHROMA_SQLITE_PATH") or self.db_path
+        )
+        if sqlite_file:
+            docs = self._load_docs_from_sqlite(sqlite_file)
+            if docs:
+                self.mode = "fallback_sqlite"
+                self._fallback_docs = docs
+                logger.info("Fallback vector DB initialized from SQLite with %s docs", len(self._fallback_docs))
+                return
+
+        raise ValueError(
+            f"No fallback data available. Checked CSV: {csv_path} and SQLite: {sqlite_file}"
+        )
 
     @staticmethod
     def _cosine_similarity(vec_a, vec_b):
@@ -132,7 +167,7 @@ class VectorDBService:
 
         return dot / (norm_a * norm_b)
 
-    def search(self, query_embedding, top_k=5):
+    def search(self, query_embedding, top_k=5, query_text=None):
         try:
             if not query_embedding:
                 raise ValueError("Query embedding cannot be empty")
@@ -150,6 +185,28 @@ class VectorDBService:
                 )
                 logger.info("Search returned %s results", len(results['documents'][0]))
                 return results
+
+            if self.mode == "fallback_sqlite":
+                text = (query_text or "").strip()
+                if not text:
+                    docs = self._fallback_docs[:top_k]
+                else:
+                    tokens = re.findall(r"[a-zA-Z0-9_]+", text.lower())
+                    scored = []
+                    for doc in self._fallback_docs:
+                        lower_doc = doc.lower()
+                        score = sum(lower_doc.count(token) for token in tokens)
+                        if score > 0:
+                            scored.append((score, doc))
+                    scored.sort(key=lambda item: item[0], reverse=True)
+                    docs = [item[1] for item in scored[:top_k]] or self._fallback_docs[:top_k]
+
+                return {
+                    "ids": [[str(idx) for idx, _ in enumerate(docs)]],
+                    "documents": [docs],
+                    "metadatas": [[{"source": "sqlite"} for _ in docs]],
+                    "distances": [[0.0 for _ in docs]],
+                }
 
             scored = []
             for record in self._fallback_records:
@@ -172,7 +229,7 @@ class VectorDBService:
             logger.error("Vector search error: %s", str(exc))
             raise
 
-    def search_with_filter(self, query_embedding, top_k=5, where=None):
+    def search_with_filter(self, query_embedding, top_k=5, where=None, query_text=None):
         try:
             if not query_embedding:
                 raise ValueError("Query embedding cannot be empty")
@@ -186,7 +243,7 @@ class VectorDBService:
                 logger.info("Filtered search returned %s results", len(results['documents'][0]))
                 return results
 
-            return self.search(query_embedding=query_embedding, top_k=top_k)
+            return self.search(query_embedding=query_embedding, top_k=top_k, query_text=query_text)
 
         except Exception as exc:
             logger.error("Filtered search error: %s", str(exc))
@@ -196,6 +253,8 @@ class VectorDBService:
         try:
             if self.mode == "chroma":
                 return self.collection.count()
+            if self.mode == "fallback_sqlite":
+                return len(self._fallback_docs)
             return len(self._fallback_records)
         except Exception as exc:
             logger.error("Count error: %s", str(exc))
@@ -211,6 +270,21 @@ class VectorDBService:
 
             if self.mode == "chroma":
                 return self.collection.get(ids=ids)
+
+            if self.mode == "fallback_sqlite":
+                matched = []
+                for raw_id in ids:
+                    try:
+                        idx = int(raw_id)
+                        if 0 <= idx < len(self._fallback_docs):
+                            matched.append(self._fallback_docs[idx])
+                    except Exception:
+                        continue
+                return {
+                    "ids": [str(i) for i in range(len(matched))],
+                    "documents": matched,
+                    "metadatas": [{"source": "sqlite"} for _ in matched],
+                }
 
             id_set = set(ids)
             matched = [record for record in self._fallback_records if record["id"] in id_set]
@@ -228,6 +302,14 @@ class VectorDBService:
         try:
             if self.mode == "chroma":
                 return self.collection.peek(limit=limit)
+
+            if self.mode == "fallback_sqlite":
+                sample = self._fallback_docs[:limit]
+                return {
+                    "ids": [str(idx) for idx, _ in enumerate(sample)],
+                    "documents": sample,
+                    "metadatas": [{"source": "sqlite"} for _ in sample],
+                }
 
             sample = self._fallback_records[:limit]
             return {

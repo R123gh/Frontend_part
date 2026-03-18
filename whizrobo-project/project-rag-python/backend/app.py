@@ -322,7 +322,7 @@ def api_query_text():
         logger.info(f"Processing text query: {query[:50]}... (top_k={top_k})")
         
         query_embedding = embedding_service.encode(query)
-        results = vector_db_service.search(query_embedding, top_k)
+        results = vector_db_service.search(query_embedding, top_k, query_text=query)
         
         if not results['documents'][0]:
             return jsonify(format_response(
@@ -391,7 +391,7 @@ def api_robot_query_text():
         # Use dedicated vector collection when available; otherwise read from robot sqlite DB.
         if getattr(db_service, "mode", "") != "fallback_csv":
             query_embedding = embedding_service.encode(query)
-            results = db_service.search(query_embedding, top_k)
+            results = db_service.search(query_embedding, top_k, query_text=query)
             documents = results.get('documents', [[]])[0]
         else:
             documents = fetch_robot_documents_from_sqlite(query, top_k)
@@ -399,7 +399,7 @@ def api_robot_query_text():
                 logger.info(f"Robot query using sqlite DB: {resolve_sqlite_file(robot_db_path_resolved)}")
             if not documents and vector_db_service is not None:
                 query_embedding = embedding_service.encode(query)
-                results = vector_db_service.search(query_embedding, top_k)
+                results = vector_db_service.search(query_embedding, top_k, query_text=query)
                 documents = results.get('documents', [[]])[0]
 
         if not documents:
@@ -549,7 +549,7 @@ def api_image_query():
         
         search_query = f"{extracted_text} {query}" if query else extracted_text
         query_embedding = embedding_service.encode(search_query)
-        results = vector_db_service.search(query_embedding, top_k)
+        results = vector_db_service.search(query_embedding, top_k, query_text=search_query)
         
         video_context = "\n\n".join(results['documents'][0]) if results['documents'][0] else ""
         
