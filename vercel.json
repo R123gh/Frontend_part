@@ -10,8 +10,8 @@
     },
     "api/**/*.py": {
       "maxDuration": 60,
-      "includeFiles": "whizrobo-project/project-rag-python/backend/**",
-      "excludeFiles": "{whizrobo-project/project-rag-python/backend/venv/**,whizrobo-project/project-frontend/node_modules/**,whizrobo-project/project-backend/node_modules/**,.git/**,.run/**,whizrobo-project/.run/**}"
+      "includeFiles": "{whizrobo-project/project-rag-python/backend/app.py,whizrobo-project/project-rag-python/backend/config.py,whizrobo-project/project-rag-python/backend/services/**,whizrobo-project/project-rag-python/backend/utils/**,whizrobo-project/project-rag-python/backend/vector_db/**}",
+      "excludeFiles": "{**/venv/**,**/__pycache__/**,**/node_modules/**,.git/**,.run/**,whizrobo-project/.run/**}"
     }
   },
   "rewrites": [
