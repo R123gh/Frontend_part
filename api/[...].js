@@ -1,5 +1,5 @@
-const createApp = require("../project-backend/createApp");
-const connectDB = require("../project-backend/config/db");
+const createApp = require("../whizrobo-project/project-backend/createApp");
+const connectDB = require("../whizrobo-project/project-backend/config/db");
 
 let appPromise;
 

@@ -2,7 +2,7 @@ import os
 import sys
 
 ROOT_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
-BACKEND_DIR = os.path.join(ROOT_DIR, "project-rag-python", "backend")
+BACKEND_DIR = os.path.join(ROOT_DIR, "whizrobo-project", "project-rag-python", "backend")
 
 if BACKEND_DIR not in sys.path:
     sys.path.insert(0, BACKEND_DIR)

@@ -93,15 +93,15 @@ If you want to stop old tracked services first and then restart:
 
 ## Vercel Deployment (Frontend + API)
 
-This repo is configured to deploy everything on Vercel:
+This repo is configured to deploy everything on Vercel from the repo root:
 
-- `project-frontend` builds to a static site.
+- `whizrobo-project/project-frontend` builds to a static site.
 - `api/**/*.js` hosts the Node/Express API.
 - `api/**/*.py` hosts the Flask RAG endpoints.
 
 ### Steps
 
-1. Import the repo into Vercel.
+1. Import the repo into Vercel (Root Directory should be the repo root).
 2. Add environment variables:
    - `MONGO_URI`
    - `JWT_SECRET` (32+ chars recommended)
