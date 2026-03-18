@@ -6,23 +6,11 @@
   "functions": {
     "api/**/*.js": {
       "maxDuration": 15,
-      "includeFiles": [
-        "whizrobo-project/project-backend/manuals/**"
-      ]
+      "includeFiles": "whizrobo-project/project-backend/manuals/**"
     },
     "api/**/*.py": {
       "maxDuration": 60,
-      "includeFiles": [
-        "whizrobo-project/project-rag-python/backend/**"
-      ],
-      "excludeFiles": [
-        "whizrobo-project/project-rag-python/backend/venv/**",
-        "whizrobo-project/project-frontend/node_modules/**",
-        "whizrobo-project/project-backend/node_modules/**",
-        ".git/**",
-        ".run/**",
-        "whizrobo-project/.run/**"
-      ]
+      "includeFiles": "whizrobo-project/project-rag-python/backend/**"
     }
   },
   "rewrites": [
