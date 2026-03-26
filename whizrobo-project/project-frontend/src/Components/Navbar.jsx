@@ -98,12 +98,12 @@ const Navbar = () => {
   }, [user, isDashboard, location.pathname]);
 
   const linkClass = (path) =>
-    `text-sm font-semibold transition ${
+    `text-sm font-semibold tracking-tight rounded-full px-3 py-1.5 transition ${
       location.pathname === path
-        ? "text-[#EC7B21]"
+        ? "text-[#EC7B21] bg-[#EC7B21]/10 ring-1 ring-[#EC7B21]/30"
         : isDark
-        ? "text-slate-100 hover:text-[#EC7B21]"
-        : "text-gray-800 hover:text-[#EC7B21]"
+        ? "text-white/80 hover:text-white hover:bg-white/10"
+        : "text-black/80 hover:text-black hover:bg-black/5"
     }`;
 
   const handleLogout = async () => {
@@ -155,23 +155,21 @@ const Navbar = () => {
 
   return (
     <nav
-      className={`fixed top-0 w-full z-50 backdrop-blur-xl shadow-[0_6px_28px_rgba(15,23,42,0.06)] ${
-        isDark
-          ? "border-b border-slate-700/70 bg-slate-950/85"
-          : "border-b border-orange-100/80 bg-white/85"
+      className={`fixed top-0 w-full z-50 backdrop-blur-2xl shadow-[0_10px_30px_rgba(0,0,0,0.08)] ${
+        isDark ? "border-b border-white/10 bg-black/85" : "border-b border-black/10 bg-white/90"
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
         <div className="h-20 flex items-center justify-between">
-          <Link to={user ? "/dashboard" : "/"} className="flex items-center">
+          <Link to={user ? "/dashboard" : "/"} className="flex items-center gap-3 group">
             <img
               src="https://whizrobo.com/wp-content/uploads/2023/07/logo.png"
               alt="WHIZROBO Logo"
-              className="h-10 sm:h-11"
+              className="h-10 sm:h-11 transition-transform duration-300 group-hover:scale-[1.03]"
             />
           </Link>
 
-          <div className="hidden md:flex items-center gap-8">
+          <div className="hidden md:flex items-center gap-6">
             {(!user || !isDashboard) &&
               publicLinks.map((item) => (
                 <Link key={item.to} to={item.to} className={linkClass(item.to)}>
@@ -182,7 +180,11 @@ const Navbar = () => {
             <button
               type="button"
               onClick={toggleTheme}
-              className="theme-toggle-btn inline-flex items-center gap-2 rounded-xl px-3 py-2 text-sm font-semibold transition"
+              className={`theme-toggle-btn inline-flex items-center gap-2 rounded-full px-3 py-2 text-xs font-semibold uppercase tracking-wide transition ${
+                isDark
+                  ? "border border-white/20 bg-black text-white hover:bg-white hover:text-black"
+                  : "border border-black/20 bg-white text-black hover:bg-black hover:text-white"
+              }`}
               aria-label="Toggle theme"
             >
               {isDark ? <FaSun size={13} /> : <FaMoon size={13} />}
@@ -192,7 +194,7 @@ const Navbar = () => {
             {!user && (
               <Link
                 to="/login"
-                className="inline-flex items-center rounded-xl bg-gradient-to-r from-[#EC7B21] to-orange-600 text-white px-5 py-2.5 text-sm font-semibold shadow-sm transition hover:from-orange-600 hover:to-orange-700 hover:shadow-md"
+                className="inline-flex items-center rounded-full bg-[#EC7B21] text-white px-5 py-2.5 text-sm font-semibold shadow-sm transition hover:opacity-90"
               >
                 Login
               </Link>
@@ -203,8 +205,10 @@ const Navbar = () => {
                 <div className="relative" ref={notifRef}>
                   <button
                     type="button"
-                    className={`relative cursor-pointer transition ${
-                      isDark ? "text-slate-200 hover:text-[#EC7B21]" : "text-gray-700 hover:text-[#EC7B21]"
+                    className={`relative h-10 w-10 inline-flex items-center justify-center rounded-full border transition ${
+                      isDark
+                        ? "border-white/15 bg-black text-white hover:border-[#EC7B21]/60 hover:text-[#EC7B21]"
+                        : "border-black/10 bg-white text-black hover:border-[#EC7B21]/60 hover:text-[#EC7B21]"
                     }`}
                     onClick={() => setNotifOpen((prev) => !prev)}
                     aria-label="Notifications"
@@ -219,15 +223,15 @@ const Navbar = () => {
 
                   {notifOpen && (
                     <div
-                      className={`absolute right-0 top-10 w-80 shadow-xl rounded-xl z-50 overflow-hidden ${
-                        isDark ? "bg-slate-900 border border-slate-700" : "bg-white border border-orange-100"
+                      className={`absolute right-0 top-12 w-80 shadow-2xl rounded-2xl z-50 overflow-hidden ${
+                        isDark ? "bg-black border border-white/10" : "bg-white border border-black/10"
                       }`}
                     >
-                      <div className={`px-3 py-2 flex items-center justify-between ${isDark ? "border-b border-slate-700" : "border-b border-orange-100"}`}>
-                        <p className={`text-sm font-semibold ${isDark ? "text-slate-100" : "text-gray-800"}`}>Notifications</p>
+                      <div className={`px-3 py-2 flex items-center justify-between ${isDark ? "border-b border-white/10" : "border-b border-black/10"}`}>
+                        <p className={`text-sm font-semibold ${isDark ? "text-white" : "text-black"}`}>Notifications</p>
                         <button
                           type="button"
-                          className="text-xs text-[#EC7B21] font-semibold hover:underline disabled:text-gray-400"
+                          className={`text-xs text-[#EC7B21] font-semibold hover:underline ${isDark ? "disabled:text-white/40" : "disabled:text-black/40"}`}
                           onClick={markAllRead}
                           disabled={unreadCount === 0}
                         >
@@ -237,9 +241,9 @@ const Navbar = () => {
 
                       <div className="max-h-80 overflow-y-auto">
                         {notifLoading ? (
-                          <p className={`px-3 py-4 text-sm ${isDark ? "text-slate-300" : "text-gray-600"}`}>Loading...</p>
+                          <p className={`px-3 py-4 text-sm ${isDark ? "text-white/70" : "text-black/60"}`}>Loading...</p>
                         ) : notifications.length === 0 ? (
-                          <p className={`px-3 py-4 text-sm ${isDark ? "text-slate-300" : "text-gray-600"}`}>No notifications yet.</p>
+                          <p className={`px-3 py-4 text-sm ${isDark ? "text-white/70" : "text-black/60"}`}>No notifications yet.</p>
                         ) : (
                           notifications.map((item) => (
                             <button
@@ -247,15 +251,15 @@ const Navbar = () => {
                               type="button"
                               className={`w-full text-left px-3 py-3 ${
                                 isDark
-                                  ? `border-b border-slate-700 hover:bg-slate-800 ${item.isRead ? "bg-slate-900" : "bg-slate-800/60"}`
-                                  : `border-b border-orange-50 hover:bg-orange-50/50 ${item.isRead ? "bg-white" : "bg-orange-50/40"}`
+                                  ? `border-b border-white/10 hover:bg-white/5 ${item.isRead ? "bg-black" : "bg-white/5"}`
+                                  : `border-b border-black/5 hover:bg-black/5 ${item.isRead ? "bg-white" : "bg-black/5"}`
                               }`}
                               onClick={() => {
                                 if (!item.isRead) markOneRead(item._id);
                               }}
                             >
-                              <p className={`text-sm font-semibold ${isDark ? "text-slate-100" : "text-gray-800"}`}>{item.title}</p>
-                              <p className={`text-xs mt-0.5 ${isDark ? "text-slate-300" : "text-gray-600"}`}>{item.message}</p>
+                              <p className={`text-sm font-semibold ${isDark ? "text-white" : "text-black"}`}>{item.title}</p>
+                              <p className={`text-xs mt-0.5 ${isDark ? "text-white/70" : "text-black/60"}`}>{item.message}</p>
                             </button>
                           ))
                         )}
@@ -266,29 +270,29 @@ const Navbar = () => {
 
                 <button
                   type="button"
-                  className={`flex items-center gap-2 rounded-xl px-2 py-1.5 shadow-sm transition ${
+                  className={`flex items-center gap-2 rounded-full px-2 py-1.5 shadow-sm transition ${
                     isDark
-                      ? "border border-slate-700 bg-slate-900 hover:border-slate-600"
-                      : "border border-orange-100 bg-white hover:border-orange-200"
+                      ? "border border-white/15 bg-black hover:border-white/30"
+                      : "border border-black/10 bg-white hover:border-black/20"
                   }`}
                   onClick={() => setProfileOpen(!profileOpen)}
                 >
-                  <span className="h-8 w-8 rounded-full bg-orange-100 text-[#EC7B21] font-bold text-sm inline-flex items-center justify-center">
+                  <span className="h-8 w-8 rounded-full bg-[#EC7B21]/15 text-[#EC7B21] font-bold text-sm inline-flex items-center justify-center">
                     {getInitial(user?.name)}
                   </span>
-                  <span className={`font-semibold text-sm ${isDark ? "text-slate-100" : "text-gray-800"}`}>{user.name}</span>
-                  <HiChevronDown className={`${profileOpen ? "rotate-180" : ""} transition-transform ${isDark ? "text-slate-200" : "text-gray-700"}`} />
+                  <span className={`font-semibold text-sm ${isDark ? "text-white" : "text-black"}`}>{user.name}</span>
+                  <HiChevronDown className={`${profileOpen ? "rotate-180" : ""} transition-transform ${isDark ? "text-white/70" : "text-black/70"}`} />
                 </button>
 
                 {profileOpen && (
                   <div
-                    className={`absolute right-0 top-12 w-48 shadow-xl rounded-xl flex flex-col z-50 overflow-hidden ${
-                      isDark ? "bg-slate-900 border border-slate-700" : "bg-white border border-orange-100"
+                    className={`absolute right-0 top-12 w-48 shadow-2xl rounded-2xl flex flex-col z-50 overflow-hidden ${
+                      isDark ? "bg-black border border-white/10" : "bg-white border border-black/10"
                     }`}
                   >
                     <Link
                       to="/profile"
-                      className={`px-4 py-2.5 text-sm ${isDark ? "text-slate-100 hover:bg-slate-800" : "text-gray-700 hover:bg-orange-50"}`}
+                      className={`px-4 py-2.5 text-sm ${isDark ? "text-white hover:bg-white/10" : "text-black hover:bg-black/5"}`}
                       onClick={() => setProfileOpen(false)}
                     >
                       Edit Profile
@@ -306,10 +310,10 @@ const Navbar = () => {
           </div>
 
           <button
-            className={`md:hidden inline-flex items-center justify-center h-10 w-10 rounded-xl ${
+            className={`md:hidden inline-flex items-center justify-center h-10 w-10 rounded-full ${
               isDark
-                ? "border border-slate-700 bg-slate-900 text-slate-100"
-                : "border border-orange-100 bg-white text-gray-700"
+                ? "border border-white/15 bg-black text-white"
+                : "border border-black/10 bg-white text-black"
             }`}
             onClick={() => setIsMenuOpen(!isMenuOpen)}
             aria-label="Toggle menu"
@@ -321,14 +325,18 @@ const Navbar = () => {
         {isMenuOpen && (
           <div className="md:hidden pb-4">
             <div
-              className={`rounded-2xl shadow-lg px-4 py-4 flex flex-col gap-2 ${
-                isDark ? "border border-slate-700 bg-slate-900" : "border border-orange-100 bg-white"
+              className={`rounded-2xl shadow-2xl px-4 py-4 flex flex-col gap-2 ${
+                isDark ? "border border-white/10 bg-black" : "border border-black/10 bg-white"
               }`}
             >
               <button
                 type="button"
                 onClick={toggleTheme}
-                className="theme-toggle-btn rounded-lg px-3 py-2 text-sm font-semibold text-left transition"
+                className={`theme-toggle-btn rounded-xl px-3 py-2 text-sm font-semibold text-left transition ${
+                  isDark
+                    ? "border border-white/20 bg-black text-white hover:bg-white hover:text-black"
+                    : "border border-black/20 bg-white text-black hover:bg-black hover:text-white"
+                }`}
               >
                 {isDark ? "Switch to Light Mode" : "Switch to Dark Mode"}
               </button>
@@ -338,12 +346,12 @@ const Navbar = () => {
                   <Link
                     key={item.to}
                     to={item.to}
-                    className={`rounded-lg px-3 py-2 text-sm font-semibold ${
+                    className={`rounded-xl px-3 py-2 text-sm font-semibold ${
                       location.pathname === item.to
-                        ? "bg-orange-50 text-[#EC7B21]"
+                        ? "bg-[#EC7B21]/10 text-[#EC7B21]"
                         : isDark
-                        ? "text-slate-100 hover:bg-slate-800"
-                        : "text-gray-800 hover:bg-orange-50"
+                        ? "text-white hover:bg-white/10"
+                        : "text-black hover:bg-black/5"
                     }`}
                     onClick={() => setIsMenuOpen(false)}
                   >
@@ -354,7 +362,7 @@ const Navbar = () => {
               {!user && (
                 <Link
                   to="/login"
-                  className="mt-1 bg-gradient-to-r from-[#EC7B21] to-orange-600 text-white px-5 py-2.5 rounded-xl text-center text-sm font-semibold"
+                  className="mt-1 bg-[#EC7B21] text-white px-5 py-2.5 rounded-full text-center text-sm font-semibold hover:opacity-90"
                   onClick={() => setIsMenuOpen(false)}
                 >
                   Login
@@ -362,10 +370,10 @@ const Navbar = () => {
               )}
 
               {user && isDashboard && (
-                <div className={`flex flex-col gap-2 pt-2 mt-1 ${isDark ? "border-t border-slate-700" : "border-t border-orange-100"}`}>
+                <div className={`flex flex-col gap-2 pt-2 mt-1 ${isDark ? "border-t border-white/10" : "border-t border-black/10"}`}>
                   <Link
                     to="/profile"
-                    className={`rounded-lg px-3 py-2 text-sm font-semibold ${isDark ? "text-slate-100 hover:bg-slate-800" : "text-gray-800 hover:bg-orange-50"}`}
+                    className={`rounded-lg px-3 py-2 text-sm font-semibold ${isDark ? "text-white hover:bg-white/10" : "text-black hover:bg-black/5"}`}
                     onClick={() => setIsMenuOpen(false)}
                   >
                     Edit Profile

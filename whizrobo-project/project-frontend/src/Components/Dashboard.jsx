@@ -76,47 +76,33 @@ const Dashboard = () => {
     <>
       <div
         className={`min-h-screen transition-colors duration-300 ${
-          isDark
-            ? "bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 text-slate-100"
-            : "bg-gradient-to-b from-orange-50/70 via-white to-amber-50/60 text-gray-900"
+          isDark ? "bg-black text-white" : "bg-white text-black"
         }`}
       >
         <main className="w-full">
           <div className="max-w-6xl mx-auto p-4 sm:p-6 md:p-8">
-            <div
-              className={`rounded-3xl p-[1px] shadow-[0_18px_55px_rgba(15,23,42,0.10)] ${
-                isDark
-                  ? "bg-gradient-to-br from-slate-600/40 via-slate-700/20 to-slate-800/40"
-                  : "bg-gradient-to-br from-orange-200/70 via-amber-100/50 to-white"
-              }`}
-            >
-              <div
-                className={`rounded-3xl backdrop-blur p-5 md:p-6 ${
-                  isDark
-                    ? "bg-slate-900/80 border border-slate-700/70"
-                    : "bg-white/85 border border-orange-100/60"
-                }`}
-              >
+            <div className={`rounded-3xl border shadow-[0_18px_55px_rgba(0,0,0,0.10)] ${isDark ? "border-white/10 bg-black" : "border-black/10 bg-white"}`}>
+              <div className="rounded-3xl p-5 md:p-6">
                 <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
                   <div>
-                    <p className="text-xs font-semibold text-orange-700 tracking-wide">WHIZROBO DASHBOARD</p>
-                    <h1 className={`text-2xl sm:text-3xl font-extrabold mt-1 ${isDark ? "text-white" : "text-gray-900"}`}>Manage Robots</h1>
-                    <p className={`text-sm mt-1 ${isDark ? "text-slate-300" : "text-gray-600"}`}>
+                    <p className="text-xs font-semibold text-[#EC7B21] tracking-wide">WHIZROBO DASHBOARD</p>
+                    <h1 className={`text-2xl sm:text-3xl font-extrabold mt-1 ${isDark ? "text-white" : "text-black"}`}>Manage Robots</h1>
+                    <p className={`text-sm mt-1 ${isDark ? "text-white/70" : "text-black/60"}`}>
                       {visibleCount} robot{visibleCount === 1 ? "" : "s"} found
                     </p>
                   </div>
 
                   <div className="relative w-full md:w-80">
-                    <FaSearch className={`absolute left-3 top-1/2 -translate-y-1/2 text-sm ${isDark ? "text-slate-400" : "text-orange-400"}`} />
+                    <FaSearch className={`absolute left-3 top-1/2 -translate-y-1/2 text-sm ${isDark ? "text-white/60" : "text-black/40"}`} />
                     <input
                       type="text"
                       value={searchTerm}
                       onChange={(event) => setSearchTerm(event.target.value)}
                       placeholder="Search robots..."
-                      className={`w-full rounded-xl pl-9 pr-4 py-2.5 text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-[#EC7B21]/60 ${
+                      className={`w-full rounded-xl pl-9 pr-4 py-2.5 text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-[#EC7B21]/40 ${
                         isDark
-                          ? "border border-slate-700 bg-slate-800 text-slate-100 placeholder:text-slate-400"
-                          : "border border-orange-200/70 bg-white text-gray-900"
+                          ? "border border-white/15 bg-black text-white placeholder:text-white/50"
+                          : "border border-black/10 bg-white text-black placeholder:text-black/40"
                       }`}
                     />
                   </div>
@@ -129,16 +115,12 @@ const Dashboard = () => {
                 <article
                   key={robot.id}
                   className={`group rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden ${
-                    isDark
-                      ? "border border-slate-700 bg-slate-900/90"
-                      : "border border-orange-100 bg-white/95"
+                    isDark ? "border border-white/10 bg-black" : "border border-black/10 bg-white"
                   }`}
                 >
                   <div
                     className={`w-full h-56 flex items-center justify-center p-5 ${
-                      isDark
-                        ? "bg-gradient-to-br from-slate-800 via-slate-900 to-slate-800"
-                        : "bg-gradient-to-br from-orange-50 via-white to-gray-100"
+                      isDark ? "bg-white/5" : "bg-black/5"
                     }`}
                   >
                     <img
@@ -148,11 +130,11 @@ const Dashboard = () => {
                     />
                   </div>
                   <div className="p-5">
-                    <h2 className={`text-xl font-extrabold ${isDark ? "text-white" : "text-gray-900"}`}>{robot.name}</h2>
-                    <p className={`text-sm mt-2 leading-relaxed ${isDark ? "text-slate-300" : "text-gray-600"}`}>{robot.shortDesc}</p>
+                    <h2 className={`text-xl font-extrabold ${isDark ? "text-white" : "text-black"}`}>{robot.name}</h2>
+                    <p className={`text-sm mt-2 leading-relaxed ${isDark ? "text-white/70" : "text-black/60"}`}>{robot.shortDesc}</p>
                     <ul className="mt-3 space-y-2">
                       {robot.bullets.map((point) => (
-                        <li key={point} className={`text-sm flex items-start gap-2 ${isDark ? "text-slate-300" : "text-gray-600"}`}>
+                        <li key={point} className={`text-sm flex items-start gap-2 ${isDark ? "text-white/70" : "text-black/60"}`}>
                           <span className="mt-1.5 h-1.5 w-1.5 rounded-full bg-[#EC7B21] flex-shrink-0" />
                           <span>{point}</span>
                         </li>
@@ -160,7 +142,7 @@ const Dashboard = () => {
                     </ul>
                     <button
                       type="button"
-                      className="mt-4 w-full inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[#EC7B21] to-orange-600 text-white py-2.5 text-sm font-semibold transition hover:from-orange-600 hover:to-orange-700"
+                      className="mt-4 w-full inline-flex items-center justify-center gap-2 rounded-xl bg-[#EC7B21] text-white py-2.5 text-sm font-semibold transition hover:opacity-90"
                     >
                       View Details
                       <FaArrowRight className="text-xs" />
@@ -173,13 +155,11 @@ const Dashboard = () => {
             {visibleCount === 0 && (
               <div
                 className={`mt-8 rounded-2xl p-8 text-center ${
-                  isDark
-                    ? "border border-slate-700 bg-slate-900/80"
-                    : "border border-orange-100 bg-white/90"
+                  isDark ? "border border-white/10 bg-black" : "border border-black/10 bg-white"
                 }`}
               >
-                <p className={`font-semibold ${isDark ? "text-slate-100" : "text-gray-700"}`}>No matching robots found.</p>
-                <p className={`text-sm mt-1 ${isDark ? "text-slate-400" : "text-gray-500"}`}>Try a different keyword.</p>
+                <p className={`font-semibold ${isDark ? "text-white" : "text-black"}`}>No matching robots found.</p>
+                <p className={`text-sm mt-1 ${isDark ? "text-white/60" : "text-black/60"}`}>Try a different keyword.</p>
               </div>
             )}
           </div>

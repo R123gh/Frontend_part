@@ -4,55 +4,55 @@ import { useParams } from "react-router-dom";
 const robotsData = [
   {
     id: "1",
-    name: "WHIZ BOT",
+    name: "WHIZBOT",
     image: "/WhizBot.jpg",
-    description: "WHIZ BOT – AI AGENT",
+    description: "AI Agent",
     bullets: [
       "Automates complex workflows and manages multi-step tasks.",
       "Provides real-time operational support within school systems.",
       "Acts as a smart agent for data integration and automation.",
     ],
     footer:
-      "WHIZ BOT simplifies operations by intelligently managing workflows and system automation.",
+      "WhizBot simplifies operations by intelligently managing workflows and system automation.",
   },
   {
     id: "2",
-    name: "WHIZ BUDDY",
+    name: "WHIZBUDDY",
     image: "/WhizBuddy.jpg",
-    description: "WHIZ BUDDY – AI ASSISTANT",
+    description: "AI Assistant",
     bullets: [
       "Supports students and staff with personalized assistance.",
-      "Helps manage schedules, reminders, and basic queries.",
+      "Helps manage schedules, reminders and basic queries.",
       "Facilitates interactive learning and collaborative projects.",
     ],
     footer:
-      "WHIZ BUDDY supports productivity and learning through intelligent assistance.",
+      "WhizBuddy supports productivity and learning through intelligent assistance.",
   },
   {
     id: "3",
-    name: "WHIZ GREETER",
+    name: "WHIZGREETER",
     image: "/WhizGreet.jpg",
-    description: "WHIZ GREETER – AI RECEPTIONIST",
+    description: "AI Receptionist",
     bullets: [
       "Welcomes visitors and manages front desk communications.",
       "Handles appointment scheduling and visitor information.",
       "Guides guests through premises with interactive directions.",
     ],
     footer:
-      "WHIZ GREETER delivers a smart and interactive front desk experience.",
+      "WhizGreeter delivers a smart and interactive front desk experience.",
   },
   {
     id: "4",
-    name: "WHIZ AARU",
+    name: "WHIZAARU",
     image: "/Whiz aaru.jpg",
-    description: "WHIZ AARU – AI TEACHER",
+    description: "AI Teacher",
     bullets: [
       "Delivers interactive, personalized lessons across subjects.",
       "Creates dynamic quizzes and learning paths tailored to students.",
       "Assists educators by automating administrative tasks and tracking progress.",
     ],
     footer:
-      "WHIZ AARU enhances teaching and learning through intelligent classroom support.",
+      "WhizAaru enhances teaching and learning through intelligent classroom support.",
   },
 ];
 
@@ -62,11 +62,11 @@ const RobotDetails = () => {
 
   if (!robot) {
     return (
-      <main className="min-h-screen flex flex-col justify-center items-center px-6 bg-gray-50 font-sans">
-        <h2 className="text-3xl font-extrabold mb-2 text-gray-900">
+      <main className="min-h-screen flex flex-col justify-center items-center px-6 bg-white">
+        <h2 className="text-3xl font-extrabold mb-2 text-black">
           Robot not found
         </h2>
-        <p className="text-lg max-w-md text-center text-gray-700">
+        <p className="text-lg max-w-md text-center text-black/70">
           Please check the URL or select a valid robot.
         </p>
       </main>
@@ -76,22 +76,22 @@ const RobotDetails = () => {
   return (
     <>
       <main
-        className="min-h-screen bg-gradient-to-b from-gray-50 to-white pt-24 px-6 flex justify-center font-sans"
+        className="min-h-screen bg-white pt-24 px-6 flex justify-center"
       >
         <div className="w-full max-w-[1400px] flex flex-col md:flex-row items-center md:items-start gap-12">
           {/* Text Content */}
-          <article className="md:w-1/2 flex flex-col gap-6 md:gap-8 p-6 md:p-10 bg-white rounded-3xl shadow-lg hover:shadow-2xl transition-shadow duration-300">
-            <h1 className="text-5xl md:text-6xl font-extrabold text-gray-900 text-center md:text-left uppercase tracking-wide">
+          <article className="md:w-1/2 flex flex-col gap-6 md:gap-8 p-6 md:p-10 bg-white rounded-3xl border border-black/10 shadow-lg transition-shadow duration-300">
+            <h1 className="text-5xl md:text-6xl font-extrabold text-black text-center md:text-left uppercase tracking-wide">
               {robot.name}
             </h1>
 
-            <p className="text-lg md:text-xl text-gray-700 leading-relaxed">
+            <p className="text-lg md:text-xl text-black/70 leading-relaxed">
               {robot.description}
             </p>
 
             <ul className="space-y-4 mt-4">
               {robot.bullets.map((bullet, idx) => (
-                <li key={idx} className="flex items-start gap-4 text-gray-800">
+                <li key={idx} className="flex items-start gap-4 text-black/80">
                   <span
                     className="mt-1 inline-block h-4 w-4 flex-shrink-0 rounded-full bg-[#EC7B21]"
                     aria-hidden="true"
@@ -101,15 +101,15 @@ const RobotDetails = () => {
               ))}
             </ul>
 
-            <hr className="my-6 border-gray-300" />
+            <hr className="my-6 border-black/10" />
 
-            <p className="text-gray-900 font-semibold italic text-lg md:text-xl">
+            <p className="text-black font-semibold italic text-lg md:text-xl">
               {robot.footer}
             </p>
           </article>
 
           {/* Image */}
-          <div className="md:w-1/2 flex justify-center items-center rounded-3xl overflow-hidden shadow-md hover:shadow-xl transition-shadow duration-300">
+          <div className="md:w-1/2 flex justify-center items-center rounded-3xl overflow-hidden border border-black/10 shadow-md transition-shadow duration-300">
             <img
               src={robot.image}
               alt={robot.name}
@@ -126,3 +126,4 @@ const RobotDetails = () => {
 };
 
 export default RobotDetails;
+

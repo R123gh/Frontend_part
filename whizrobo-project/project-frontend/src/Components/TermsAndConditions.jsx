@@ -2,13 +2,13 @@ import React from "react";
 
 const TermsAndConditions = () => {
   return (
-    <div className="bg-gray-50 min-h-screen py-16 px-6">
-      <div className="bg-white rounded-2xl shadow-xl p-10 sm:p-16 w-full">
-        <h1 className="text-5xl font-extrabold text-gray-800 mb-8 text-center">
+    <div className="bg-white min-h-screen py-16 px-6">
+      <div className="bg-white rounded-2xl border border-black/10 shadow-xl p-10 sm:p-16 w-full">
+        <h1 className="text-5xl font-extrabold text-black mb-8 text-center">
           Terms & Conditions
         </h1>
 
-        <section className="space-y-6 text-gray-700 text-lg leading-relaxed">
+        <section className="space-y-6 text-black/70 text-lg leading-relaxed">
           <p>
             The terms <strong>“We” / “Us” / “Our” / ”Company”</strong> individually and collectively refer to WHIZROBO PRIVATE LIMITED and the terms <strong>“Visitor” / “User”</strong> refer to the users.
           </p>
@@ -16,17 +16,17 @@ const TermsAndConditions = () => {
             This page states the Terms and Conditions under which you (Visitor) may visit this website (“Website”). Please read this page carefully. If you do not accept the Terms and Conditions stated here, we would request you to exit this site. The business, any of its business divisions and/or its subsidiaries, associate companies, or subsidiaries to subsidiaries reserve their respective rights to revise these Terms and Conditions at any time by updating this posting. You should visit this page periodically to re-appraise yourself of the Terms and Conditions, because they are binding on all users of this Website.
           </p>
 
-          <h2 className="text-2xl font-bold text-gray-800 mt-6">Use of Content</h2>
+          <h2 className="text-2xl font-bold text-black mt-6">Use of Content</h2>
           <p>
             All logos, brands, marks, headings, labels, names, signatures, numerals, shapes, or any combinations thereof, appearing on this site, except as otherwise noted, are properties either owned, or used under license, by the business and/or its associate entities. The use of these properties or any other content on this site, except as provided in these terms and conditions, is strictly prohibited.
           </p>
 
-          <h2 className="text-2xl font-bold text-gray-800 mt-6">Usage</h2>
+          <h2 className="text-2xl font-bold text-black mt-6">Usage</h2>
           <p>
-            This section is for users who are using the WHIZROBO Products for their Projects/Innovations. We ship Products after rigorous Quality checks, and they are safe for the target age group. Users must ensure products are used as specified. Third-party batteries or chargers are used at the user’s risk. Firmware updates should follow instructions. Support may not be available after one year of purchase.
+            This section is for users who are using the WHIZROBO Products for their Projects/Innovations. We ship Products after rigorous Quality checks and they are safe for the target age group. Users must ensure products are used as specified. Third-party batteries or chargers are used at the user’s risk. Firmware updates should follow instructions. Support may not be available after one year of purchase.
           </p>
 
-          <h2 className="text-2xl font-bold text-gray-800 mt-6">Acceptable Website Use</h2>
+          <h2 className="text-2xl font-bold text-black mt-6">Acceptable Website Use</h2>
           <ul className="list-disc list-inside space-y-2 ml-5">
             <li>
               <strong>Security Rules:</strong> Visitors are prohibited from violating the security of the website, including unauthorized access, probing, sending viruses, flooding, or unsolicited emails. Violations may result in civil or criminal liability.
@@ -45,22 +45,22 @@ const TermsAndConditions = () => {
             </li>
           </ul>
 
-          <h2 className="text-2xl font-bold text-gray-800 mt-6">Indemnity</h2>
+          <h2 className="text-2xl font-bold text-black mt-6">Indemnity</h2>
           <p>
-            The User agrees to indemnify and hold harmless the Company, its officers, directors, employees, and agents from claims, actions, demands, liabilities, or losses arising from their use of this website or breach of terms.
+            The User agrees to indemnify and hold harmless the Company, its officers, directors, employees and agents from claims, actions, demands, liabilities, or losses arising from their use of this website or breach of terms.
           </p>
 
-          <h2 className="text-2xl font-bold text-gray-800 mt-6">Liability</h2>
+          <h2 className="text-2xl font-bold text-black mt-6">Liability</h2>
           <p>
             The Company, its group companies, directors, officers, or employees shall not be liable for direct, indirect, incidental, consequential, or exemplary damages arising from the use or inability to use the service. The total liability shall not exceed the amount paid by the user for the related cause of action.
           </p>
 
-          <h2 className="text-2xl font-bold text-gray-800 mt-6">Disclaimer of Consequential Damages</h2>
+          <h2 className="text-2xl font-bold text-black mt-6">Disclaimer of Consequential Damages</h2>
           <p>
             In no event shall the Company or its associated entities be liable for any damages, including lost profits, damage to hardware, or business interruption resulting from the use or inability to use the website.
           </p>
 
-          <h2 className="text-2xl font-bold text-gray-800 mt-6">Terms of Use of Third-Party Services</h2>
+          <h2 className="text-2xl font-bold text-black mt-6">Terms of Use of Third-Party Services</h2>
           <p>
             All video content served via YouTube follows YouTube’s terms of service.
           </p>

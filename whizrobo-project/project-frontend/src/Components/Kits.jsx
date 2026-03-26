@@ -86,11 +86,11 @@ const getSmartReply = (query, contextLabel) => {
   }
 
   if (/\b(help|support|assist me)\b/.test(normalized)) {
-    return `Sure. I can help with ${contextLabel}, grade suitability, learning outcomes, estimated implementation approach, and deployment planning.`;
+    return `Sure. I can help with ${contextLabel}, grade suitability, learning outcomes, estimated implementation approach and deployment planning.`;
   }
 
   if (/\b(who are you|what can you do|capabilities)\b/.test(normalized)) {
-    return "I am your WHIZROBO virtual assistant. I provide professional, structured guidance for kit selection, classroom usage, setup, and expected outcomes.";
+    return "I am your WHIZROBO virtual assistant. I provide professional, structured guidance for kit selection, classroom usage, setup and expected outcomes.";
   }
 
   return null;
@@ -104,11 +104,11 @@ const makeProfessionalAnswer = (rawAnswer, contextLabel) => {
     .replace(/\n{3,}/g, "\n\n")
     .trim();
   if (!cleaned) {
-    return `I can help with ${contextLabel}. Please share your exact requirement, and I will provide a clear, step-by-step recommendation.`;
+    return `I can help with ${contextLabel}. Please share your exact requirement and I will provide a clear, step-by-step recommendation.`;
   }
 
   if (cleaned.length < 80) {
-    return `${cleaned}\n\nIf you share your target grade, objective, and timeline, I can provide a more detailed recommendation.`;
+    return `${cleaned}\n\nIf you share your target grade, objective and timeline, I can provide a more detailed recommendation.`;
   }
 
   return cleaned;
@@ -238,7 +238,7 @@ const Kits = () => {
           role: "assistant",
           content:
             `I could not complete this request right now. ${error.message}. ` +
-            "Please try again, and I can provide a complete, structured answer.",
+            "Please try again and I can provide a complete, structured answer.",
         },
       ]);
     } finally {
@@ -342,24 +342,19 @@ const Kits = () => {
   return (
     <>
       <section
-        className="relative overflow-hidden min-h-screen bg-gradient-to-b from-orange-50/70 via-white to-amber-50/60 font-sans"
+        className="relative overflow-hidden min-h-screen bg-white"
       >
-        <div aria-hidden="true" className="pointer-events-none absolute inset-0">
-          <div className="absolute -top-24 -left-24 h-72 w-72 rounded-full bg-orange-200/30 blur-3xl" />
-          <div className="absolute top-24 -right-24 h-72 w-72 rounded-full bg-amber-200/30 blur-3xl" />
-        </div>
-
         <div className="relative max-w-6xl mx-auto px-4 sm:px-6 pt-10 pb-6">
           <div className="text-center max-w-4xl mx-auto">
-            <p className="inline-flex items-center gap-2 rounded-full border border-orange-200/70 bg-white/70 px-3 py-1 text-xs font-semibold text-orange-700">
+            <p className="inline-flex items-center gap-2 rounded-full border border-black/10 bg-[#EC7B21]/10 px-3 py-1 text-xs font-semibold text-[#EC7B21]">
               STEM kits catalog
             </p>
-            <h1 className="mt-4 text-4xl md:text-5xl font-extrabold text-gray-900">Explore Our Kits</h1>
-            <p className="mt-3 text-gray-700">Choose a category and view full details for each kit.</p>
+            <h1 className="mt-4 text-4xl md:text-5xl font-extrabold text-black">Explore Our Kits</h1>
+            <p className="mt-3 text-black/70">Choose a category and view full details for each kit.</p>
           </div>
         </div>
 
-        <div className="relative sticky top-0 z-40 border-b border-orange-100/70 bg-white/70 backdrop-blur-xl">
+        <div className="relative sticky top-0 z-40 border-b border-black/10 bg-white/90 backdrop-blur-xl">
           <div className="max-w-6xl mx-auto px-4 sm:px-6 py-3 flex gap-2 overflow-x-auto">
             {Object.keys(kitsData).map((kit) => (
               <button
@@ -367,8 +362,8 @@ const Kits = () => {
                 onClick={() => setSelectedKit(kit)}
                 className={`whitespace-nowrap rounded-full px-4 py-2.5 text-sm font-semibold transition border ${
                   selectedKit === kit
-                    ? "bg-gradient-to-r from-[#EC7B21] to-orange-600 text-white border-orange-200"
-                    : "bg-white text-gray-900 border-orange-200 hover:bg-orange-50"
+                    ? "bg-[#EC7B21] text-white border-[#EC7B21]"
+                    : "bg-white text-black border-black/10 hover:bg-black/5"
                 }`}
               >
                 {kit} KITS
@@ -378,23 +373,23 @@ const Kits = () => {
         </div>
 
         <div className="relative max-w-6xl mx-auto px-4 sm:px-6 py-6 grid grid-cols-1 lg:grid-cols-12 gap-6">
-          <aside className="lg:col-span-4 rounded-3xl bg-gradient-to-br from-orange-200/70 via-amber-100/50 to-white p-[1px] shadow-[0_18px_45px_rgba(15,23,42,0.10)]">
-            <div className="rounded-3xl bg-white/85 backdrop-blur border border-orange-100/60 p-3 space-y-2 max-h-[70vh] overflow-auto">
+          <aside className="lg:col-span-4 rounded-3xl border border-black/10 shadow-[0_18px_45px_rgba(0,0,0,0.08)]">
+            <div className="rounded-3xl bg-white border border-black/10 p-3 space-y-2 max-h-[70vh] overflow-auto">
               {kitsData[selectedKit].map((item) => (
                 <button
                   key={item.id}
                   onClick={() => setSelectedItem(item)}
                   className={`w-full text-left rounded-2xl p-3 border transition ${
                     selectedItem.id === item.id
-                      ? "bg-orange-50/70 border-orange-300 ring-2 ring-orange-200/70"
-                      : "bg-white border-orange-100 hover:bg-orange-50/50"
+                      ? "bg-[#EC7B21]/10 border-[#EC7B21]/40 ring-2 ring-[#EC7B21]/20"
+                      : "bg-white border-black/10 hover:bg-black/5"
                   }`}
                 >
                   <div className="flex items-center gap-3">
-                    <img src={item.src} alt={item.name} className="h-12 w-12 rounded-xl object-cover border border-orange-200" />
+                    <img src={item.src} alt={item.name} className="h-12 w-12 rounded-xl object-cover border border-black/10" />
                     <div className="min-w-0">
-                      <p className="font-extrabold text-sm text-gray-900 truncate">{item.name}</p>
-                      <p className="text-[11px] text-gray-600 line-clamp-2">{item.description}</p>
+                      <p className="font-extrabold text-sm text-black truncate">{item.name}</p>
+                      <p className="text-[11px] text-black/60 line-clamp-2">{item.description}</p>
                     </div>
                   </div>
                 </button>
@@ -403,13 +398,13 @@ const Kits = () => {
           </aside>
 
           <main className="lg:col-span-8 grid grid-cols-1 md:grid-cols-2 gap-6">
-            <article className="rounded-3xl bg-gradient-to-br from-orange-200/70 via-amber-100/50 to-white p-[1px]">
-              <div className="h-full rounded-3xl bg-white/85 backdrop-blur border border-orange-100/60 p-6">
-                <h2 className="text-3xl font-extrabold text-gray-900">{selectedItem.name}</h2>
-                <p className="mt-3 text-gray-700">{selectedItem.description}</p>
+            <article className="rounded-3xl border border-black/10 shadow-[0_18px_45px_rgba(0,0,0,0.08)]">
+              <div className="h-full rounded-3xl bg-white p-6">
+                <h2 className="text-3xl font-extrabold text-black">{selectedItem.name}</h2>
+                <p className="mt-3 text-black/70">{selectedItem.description}</p>
                 <ul className="mt-5 space-y-2">
                   {selectedItem.grades.map((grade) => (
-                    <li key={grade} className="flex items-start gap-2 text-gray-700">
+                    <li key={grade} className="flex items-start gap-2 text-black/70">
                       <span className="mt-1.5 inline-block h-2.5 w-2.5 rounded-full bg-[#EC7B21]" />
                       <span className="font-semibold">{grade}</span>
                     </li>
@@ -418,8 +413,8 @@ const Kits = () => {
               </div>
             </article>
 
-            <article className="rounded-3xl bg-gradient-to-br from-orange-200/70 via-amber-100/50 to-white p-[1px]">
-              <div className="h-full rounded-3xl bg-white/85 backdrop-blur border border-orange-100/60 p-6 flex items-center justify-center">
+            <article className="rounded-3xl border border-black/10 shadow-[0_18px_45px_rgba(0,0,0,0.08)]">
+              <div className="h-full rounded-3xl bg-white p-6 flex items-center justify-center">
                 <img src={selectedItem.src} alt={selectedItem.name} className="max-h-[420px] w-full object-contain" />
               </div>
             </article>
@@ -429,11 +424,11 @@ const Kits = () => {
         <div className="fixed bottom-6 right-4 sm:right-6 z-[60]">
           <div
             ref={chatPanelRef}
-            className={`${isChatFullscreen ? "w-screen h-screen max-w-none rounded-none mb-0" : "mb-3 w-[calc(100vw-2rem)] sm:w-96 max-w-[26rem] rounded-2xl"} border border-orange-200/60 bg-white/90 backdrop-blur-xl shadow-2xl overflow-hidden transition-all duration-300 ${
+            className={`${isChatFullscreen ? "w-screen h-screen max-w-none rounded-none mb-0" : "mb-3 w-[calc(100vw-2rem)] sm:w-96 max-w-[26rem] rounded-2xl"} border border-black/10 bg-white shadow-2xl overflow-hidden transition-all duration-300 ${
               isChatOpen ? "opacity-100 translate-y-0 scale-100" : "opacity-0 translate-y-4 scale-95 pointer-events-none"
             }`}
           >
-            <div className="bg-gradient-to-r from-[#EC7B21] via-[#f39a4f] to-amber-400 text-white px-4 py-3 flex items-start justify-between gap-3">
+            <div className="bg-[#EC7B21] text-white px-4 py-3 flex items-start justify-between gap-3">
               <div>
                 <h3 className="text-base font-extrabold flex items-center gap-2">
                   <FaRobot size={14} /> More about Kits
@@ -459,14 +454,14 @@ const Kits = () => {
               </div>
             </div>
 
-            <div className={`bg-gradient-to-b from-white to-[#fff3ea] p-3 overflow-y-auto space-y-3 ${isChatFullscreen ? "h-[calc(100vh-11.5rem)]" : "h-72"}`}>
+            <div className={`bg-white p-3 overflow-y-auto space-y-3 ${isChatFullscreen ? "h-[calc(100vh-11.5rem)]" : "h-72"}`}>
               {ragMessages.map((msg, idx) => (
                 <div
                   key={idx}
                   className={`max-w-[92%] px-3 py-2.5 rounded-2xl text-sm ${
                     msg.role === "user"
-                      ? "ml-auto bg-gradient-to-r from-[#EC7B21] to-orange-500 text-white"
-                      : "mr-auto bg-white border border-orange-100 text-gray-800"
+                      ? "ml-auto bg-[#EC7B21] text-white"
+                      : "mr-auto bg-white border border-black/10 text-black"
                   }`}
                 >
                   {msg.content}
@@ -476,8 +471,8 @@ const Kits = () => {
                         onClick={() => playTts(msg.content, idx)}
                         className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded text-[11px] font-semibold border ${
                           ttsPlayingId === idx
-                            ? "border-red-300 text-red-600 bg-red-50"
-                            : "border-orange-300 text-[#EC7B21] hover:bg-orange-50"
+                            ? "border-[#EC7B21]/40 text-[#EC7B21] bg-[#EC7B21]/10"
+                            : "border-black/10 text-[#EC7B21] hover:bg-black/5"
                         }`}
                       >
                         {ttsLoadingId === idx ? (
@@ -498,24 +493,26 @@ const Kits = () => {
                   )}
                 </div>
               ))}
-              {ragLoading && <div className="text-sm text-gray-600">Assistant is typing...</div>}
+              {ragLoading && <div className="text-sm text-black/60">Assistant is typing...</div>}
               <div ref={chatEndRef} />
             </div>
 
-            <div className="p-3 bg-white/90 border-t border-orange-100/60 flex gap-2">
+            <div className="p-3 bg-white border-t border-black/10 flex gap-2">
               <input
                 type="text"
                 value={ragInput}
                 onChange={(e) => setRagInput(e.target.value)}
                 onKeyDown={(e) => e.key === "Enter" && askRag()}
                 placeholder={`Ask about ${selectedItem.name}...`}
-                className="flex-1 border border-orange-200/70 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#EC7B21]/60"
+                className="flex-1 border border-black/10 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#EC7B21]/40"
               />
               <button
                 onClick={toggleMic}
                 disabled={!speechSupported || ragLoading}
                 className={`px-3 py-2 rounded-xl border ${
-                  isListening ? "bg-red-500 text-white border-red-400" : "bg-white text-[#EC7B21] border-orange-300"
+                  isListening
+                    ? "bg-[#EC7B21] text-white border-[#EC7B21]/80 animate-pulse"
+                    : "bg-white text-[#EC7B21] border-black/10 hover:bg-black/5"
                 }`}
               >
                 <FaMicrophone size={13} />
@@ -525,8 +522,8 @@ const Kits = () => {
                 disabled={ragLoading || !ragInput.trim()}
                 className={`px-4 py-2 rounded-xl text-sm font-semibold text-white ${
                   ragLoading || !ragInput.trim()
-                    ? "bg-orange-300 cursor-not-allowed"
-                    : "bg-gradient-to-r from-[#EC7B21] to-orange-600"
+                    ? "bg-[#EC7B21]/50 cursor-not-allowed"
+                    : "bg-[#EC7B21] hover:opacity-90"
                 }`}
               >
                 Send
@@ -536,7 +533,7 @@ const Kits = () => {
 
           <button
             onClick={() => setIsChatOpen((prev) => !prev)}
-            className="ml-auto relative overflow-hidden flex items-center gap-2 rounded-full bg-gradient-to-r from-[#EC7B21] to-orange-600 text-white px-4 py-3 shadow-xl transition-all active:scale-95"
+            className="ml-auto relative overflow-hidden flex items-center gap-2 rounded-full bg-[#EC7B21] text-white px-4 py-3 shadow-xl transition-all active:scale-95 hover:opacity-90"
           >
             <FaRobot size={15} />
             <span className="font-semibold text-sm tracking-wide">More about Kits</span>

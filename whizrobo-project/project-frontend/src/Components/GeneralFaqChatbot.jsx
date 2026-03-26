@@ -283,7 +283,7 @@ const GeneralFaqChatbot = () => {
     {
       role: "assistant",
       content:
-        "Hello, I am the WHIZROBO Support Assistant. Ask any question about our programs, grades, training, pricing, and partnerships.",
+        "Hello, I am the WHIZROBO Support Assistant. Ask any question about our programs, grades, training, pricing and partnerships.",
     },
   ]);
 
@@ -386,8 +386,8 @@ const GeneralFaqChatbot = () => {
   return (
     <div className="fixed bottom-5 right-4 sm:right-6 z-[70]">
       {open && (
-        <div className="mb-3 w-[calc(100vw-2rem)] sm:w-[27rem] max-w-[29rem] overflow-hidden rounded-2xl border border-orange-200/70 bg-white shadow-2xl">
-          <div className="flex items-center justify-between bg-gradient-to-r from-[#d86815] to-[#EC7B21] px-4 py-3 text-white">
+        <div className="mb-3 w-[calc(100vw-2rem)] sm:w-[27rem] max-w-[29rem] overflow-hidden rounded-2xl border border-black/10 bg-white shadow-2xl">
+          <div className="flex items-center justify-between bg-[#EC7B21] px-4 py-3 text-white">
             <div className="flex items-center gap-2 font-semibold tracking-wide">
               <FaRobot /> WHIZROBO Support Assistant
             </div>
@@ -399,39 +399,39 @@ const GeneralFaqChatbot = () => {
             </button>
           </div>
 
-          <div className="h-80 overflow-y-auto bg-gradient-to-b from-[#fffdfa] to-orange-50 p-3 space-y-3">
+          <div className="h-80 overflow-y-auto bg-white p-3 space-y-3">
             {messages.map((msg, idx) => (
               <div
                 key={idx}
                 className={`max-w-[92%] whitespace-pre-line rounded-2xl px-3 py-2 text-sm ${
                   msg.role === "user"
-                    ? "ml-auto bg-gradient-to-r from-[#EC7B21] to-orange-500 text-white"
-                    : "mr-auto border border-orange-100 bg-white text-gray-800 shadow-sm"
+                    ? "ml-auto bg-[#EC7B21] text-white"
+                    : "mr-auto border border-black/10 bg-white text-black shadow-sm"
                 }`}
               >
                 {msg.content}
               </div>
             ))}
             {loading && (
-              <div className="mr-auto max-w-[92%] rounded-2xl border border-orange-100 bg-white px-3 py-2 text-sm text-gray-700">
+              <div className="mr-auto max-w-[92%] rounded-2xl border border-black/10 bg-white px-3 py-2 text-sm text-black/70">
                 Thinking...
               </div>
             )}
             <div ref={messagesEndRef} />
           </div>
 
-          <div className="flex gap-2 border-t border-orange-100 bg-white p-3">
+          <div className="flex gap-2 border-t border-black/10 bg-white p-3">
             <input
               value={input}
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={(e) => e.key === "Enter" && sendMessage()}
               placeholder="Ask your question..."
-              className="flex-1 rounded-xl border border-orange-200 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#EC7B21]/50"
+              className="flex-1 rounded-xl border border-black/10 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#EC7B21]/40"
             />
             <button
               onClick={sendMessage}
               disabled={loading}
-              className="inline-flex items-center gap-1 rounded-xl bg-gradient-to-r from-[#EC7B21] to-orange-600 px-3 py-2 text-sm font-semibold text-white"
+              className="inline-flex items-center gap-1 rounded-xl bg-[#EC7B21] px-3 py-2 text-sm font-semibold text-white hover:opacity-90"
             >
               <FaPaperPlane />
               Send
@@ -442,7 +442,7 @@ const GeneralFaqChatbot = () => {
 
       <button
         onClick={() => setOpen((prev) => !prev)}
-        className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-[#d86815] to-[#EC7B21] px-4 py-3 text-sm font-semibold text-white shadow-xl"
+        className="inline-flex items-center gap-2 rounded-full bg-[#EC7B21] px-4 py-3 text-sm font-semibold text-white shadow-xl hover:opacity-90"
       >
         <FaComments />
         WHIZROBO Assistant

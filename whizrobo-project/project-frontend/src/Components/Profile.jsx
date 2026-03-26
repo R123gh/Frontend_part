@@ -80,14 +80,14 @@ const Profile = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-orange-50 to-gray-100 pt-28 px-4">
-      <div className="max-w-md mx-auto bg-white p-8 rounded-2xl shadow-xl">
+    <div className="min-h-screen bg-white pt-28 px-4">
+      <div className="max-w-md mx-auto bg-white p-8 rounded-2xl border border-black/10 shadow-lg">
         <h2 className="text-3xl font-bold text-center text-[#EC7B21] mb-8">
           Edit Profile
         </h2>
 
         <div className="mb-4">
-          <label className="block text-sm font-semibold text-gray-600 mb-1">
+          <label className="block text-sm font-semibold text-black/70 mb-1">
             Name
           </label>
           <input
@@ -96,12 +96,12 @@ const Profile = () => {
             value={form.name}
             onChange={handleChange}
             disabled={loading || saving}
-            className="w-full border border-gray-300 px-4 py-2 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-400 disabled:bg-gray-100"
+            className="w-full border border-black/10 px-4 py-2 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#EC7B21]/40 disabled:bg-black/5"
           />
         </div>
 
         <div className="mb-6">
-          <label className="block text-sm font-semibold text-gray-600 mb-1">
+          <label className="block text-sm font-semibold text-black/70 mb-1">
             Email
           </label>
           <input
@@ -110,14 +110,14 @@ const Profile = () => {
             value={form.email}
             onChange={handleChange}
             disabled={loading || saving}
-            className="w-full border border-gray-300 px-4 py-2 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-400 disabled:bg-gray-100"
+            className="w-full border border-black/10 px-4 py-2 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#EC7B21]/40 disabled:bg-black/5"
           />
         </div>
 
         <button
           onClick={saveProfile}
           disabled={loading || saving}
-          className="w-full bg-[#EC7B21] text-white py-3 rounded-xl font-semibold transition-all duration-200 hover:bg-orange-600 hover:scale-[1.02] active:scale-95 disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:scale-100"
+          className="w-full bg-[#EC7B21] text-white py-3 rounded-xl font-semibold transition-all duration-200 hover:opacity-90 active:scale-95 disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:opacity-60"
         >
           {saving ? "Saving..." : "Save Changes"}
         </button>

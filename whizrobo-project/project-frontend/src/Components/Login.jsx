@@ -6,7 +6,7 @@ import toast from "react-hot-toast";
 const API_BASE_URL = import.meta.env.VITE_API_URL || "";
 
 const fieldClass =
-  "w-full rounded-xl border border-orange-200/70 bg-white px-4 py-3 text-sm text-gray-900 shadow-sm focus:outline-none focus:ring-2 focus:ring-[#EC7B21]/60";
+  "w-full rounded-xl border border-black/10 bg-white px-4 py-3 text-sm text-black shadow-sm focus:outline-none focus:ring-2 focus:ring-[#EC7B21]/40";
 
 const Login = ({ onLogin }) => {
   const location = useLocation();
@@ -85,23 +85,18 @@ const Login = ({ onLogin }) => {
   return (
     <>
       <section
-        className="relative min-h-screen overflow-hidden bg-gradient-to-b from-orange-50/80 via-white to-amber-50/70 px-6 py-14"
+        className="relative min-h-screen overflow-hidden bg-white px-6 py-14"
       >
-        <div aria-hidden="true" className="pointer-events-none absolute inset-0">
-          <div className="absolute -top-24 -left-24 h-72 w-72 rounded-full bg-orange-200/30 blur-3xl" />
-          <div className="absolute top-24 -right-24 h-72 w-72 rounded-full bg-amber-200/30 blur-3xl" />
-        </div>
-
         <div className="relative max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-6 items-stretch">
-          <div className="rounded-3xl bg-gradient-to-br from-[#EC7B21] to-orange-600 text-white p-7 sm:p-9 shadow-[0_20px_60px_rgba(236,123,33,0.35)]">
-            <div className="inline-flex h-12 w-12 items-center justify-center rounded-xl bg-white/15 border border-white/25">
+          <div className="rounded-3xl bg-black text-white p-7 sm:p-9 shadow-[0_20px_60px_rgba(0,0,0,0.25)]">
+            <div className="inline-flex h-12 w-12 items-center justify-center rounded-xl bg-white/10 border border-white/20">
               <FaRobot size={22} />
             </div>
             <h2 className="mt-5 text-3xl sm:text-4xl font-extrabold leading-tight">
-              Learn, Build, and Scale with AI + Robotics
+              Learn, Build and Scale with AI + Robotics
             </h2>
-            <p className="mt-4 text-sm sm:text-base text-orange-50/95 leading-relaxed">
-              Access kits, robots, and learning workflows from one account. Use login for existing users or create a new account to get started.
+            <p className="mt-4 text-sm sm:text-base text-white/80 leading-relaxed">
+              Access kits, robots and learning workflows from one account. Use login for existing users or create a new account to get started.
             </p>
             <div className="mt-6 space-y-3 text-sm">
               <div className="flex items-center gap-2">
@@ -115,14 +110,14 @@ const Login = ({ onLogin }) => {
             </div>
           </div>
 
-          <div className="rounded-3xl bg-gradient-to-br from-orange-200/70 via-amber-100/50 to-white p-[1px] shadow-[0_18px_55px_rgba(15,23,42,0.10)]">
-            <div className="h-full rounded-3xl bg-white/90 backdrop-blur border border-orange-100/60 p-6 sm:p-8">
-              <div className="inline-flex rounded-xl border border-orange-200/70 bg-orange-50/50 p-1 mb-6">
+          <div className="rounded-3xl border border-black/10 shadow-[0_18px_55px_rgba(0,0,0,0.08)]">
+            <div className="h-full rounded-3xl bg-white p-6 sm:p-8">
+              <div className="inline-flex rounded-xl border border-black/10 bg-[#EC7B21]/10 p-1 mb-6">
                 <button
                   type="button"
                   onClick={() => handleModeSwitch(false)}
                   className={`px-4 py-2 rounded-lg text-sm font-semibold transition ${
-                    !isRegister ? "bg-white text-[#EC7B21] shadow-sm" : "text-gray-700"
+                    !isRegister ? "bg-white text-[#EC7B21] shadow-sm" : "text-black/70"
                   }`}
                 >
                   Login
@@ -131,17 +126,17 @@ const Login = ({ onLogin }) => {
                   type="button"
                   onClick={() => handleModeSwitch(true)}
                   className={`px-4 py-2 rounded-lg text-sm font-semibold transition ${
-                    isRegister ? "bg-white text-[#EC7B21] shadow-sm" : "text-gray-700"
+                    isRegister ? "bg-white text-[#EC7B21] shadow-sm" : "text-black/70"
                   }`}
                 >
                   Register
                 </button>
               </div>
 
-              <h1 className="text-2xl sm:text-3xl font-extrabold text-gray-900 tracking-tight">
+              <h1 className="text-2xl sm:text-3xl font-extrabold text-black tracking-tight">
                 {titleText}
               </h1>
-              <p className="mt-2 text-sm text-gray-600">
+              <p className="mt-2 text-sm text-black/60">
                 {isRegister
                   ? "Enter your details to create your account."
                   : "Sign in to continue to your dashboard."}
@@ -150,7 +145,7 @@ const Login = ({ onLogin }) => {
               <form onSubmit={handleSubmit} className="mt-6 space-y-4">
                 {isRegister && (
                   <div>
-                    <label className="block text-sm font-semibold text-gray-800 mb-1.5">Full Name</label>
+                    <label className="block text-sm font-semibold text-black mb-1.5">Full Name</label>
                     <input
                       type="text"
                       name="name"
@@ -164,7 +159,7 @@ const Login = ({ onLogin }) => {
                 )}
 
                 <div>
-                  <label className="block text-sm font-semibold text-gray-800 mb-1.5">Email Address</label>
+                  <label className="block text-sm font-semibold text-black mb-1.5">Email Address</label>
                   <input
                     type="email"
                     name="email"
@@ -177,7 +172,7 @@ const Login = ({ onLogin }) => {
                 </div>
 
                 <div className="relative">
-                  <label className="block text-sm font-semibold text-gray-800 mb-1.5">Password</label>
+                  <label className="block text-sm font-semibold text-black mb-1.5">Password</label>
                   <input
                     type={showPassword ? "text" : "password"}
                     name="password"
@@ -189,7 +184,7 @@ const Login = ({ onLogin }) => {
                   />
                   <button
                     type="button"
-                    className="absolute right-3 top-[39px] text-gray-400 hover:text-[#EC7B21]"
+                    className="absolute right-3 top-[39px] text-black/40 hover:text-[#EC7B21]"
                     onClick={() => setShowPassword((prev) => !prev)}
                     aria-label="Toggle password visibility"
                   >
@@ -200,7 +195,7 @@ const Login = ({ onLogin }) => {
                 <button
                   type="submit"
                   disabled={loading}
-                  className={`w-full rounded-xl bg-gradient-to-r from-[#EC7B21] to-orange-600 text-white py-3 text-sm font-semibold shadow-sm transition hover:from-orange-600 hover:to-orange-700 ${
+                  className={`w-full rounded-xl bg-[#EC7B21] text-white py-3 text-sm font-semibold shadow-sm transition hover:opacity-90 ${
                     loading ? "opacity-60 cursor-not-allowed" : ""
                   }`}
                 >
@@ -208,7 +203,7 @@ const Login = ({ onLogin }) => {
                 </button>
               </form>
 
-              <p className="mt-5 text-xs text-gray-500 leading-relaxed">
+              <p className="mt-5 text-xs text-black/60 leading-relaxed">
                 By continuing, you agree to our{" "}
                 <Link to="/terms-and-conditions" className="text-[#EC7B21] hover:underline font-semibold">
                   Terms of Service
